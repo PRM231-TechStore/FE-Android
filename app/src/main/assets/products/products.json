@@ -1,0 +1,40 @@
+{
+  "productList": [
+    {
+      "id": 1,
+      "product_name": "Laptop ASUS VivoBook",
+      "product_description": "Powerful laptop for everyday use with sleek design and long battery life.",
+      "product_price": 15000000
+    },
+    {
+      "id": 2,
+      "product_name": "Desktop PC Dell Inspiron",
+      "product_description": "High-performance desktop PC with large storage and expandable RAM.",
+      "product_price": 20000000
+    },
+    {
+      "id": 3,
+      "product_name": "Apple MacBook Air",
+      "product_description": "Ultra-thin and lightweight laptop with Retina display and all-day battery life.",
+      "product_price": 30000000
+    },
+    {
+      "id": 4,
+      "product_name": "Gaming Laptop MSI GE75 Raider",
+      "product_description": "High-end gaming laptop with powerful graphics card and customizable RGB keyboard.",
+      "product_price": 40000000
+    },
+    {
+      "id": 5,
+      "product_name": "All-in-One PC HP Pavilion",
+      "product_description": "Sleek all-in-one PC with touchscreen display and built-in webcam.",
+      "product_price": 25000000
+    },
+    {
+      "id": 6,
+      "product_name": "Chromebook Google Pixelbook",
+      "product_description": "Fast and lightweight laptop with Chrome OS and long-lasting battery.",
+      "product_price": 18000000
+    }
+  ]
+}

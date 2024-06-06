@@ -1,0 +1,40 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/product_card_view">
+
+    <ImageView
+        android:id="@+id/productImage"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginBottom="30dp"></ImageView>
+
+    <TextView
+        android:id="@+id/productName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:padding="10dp"
+        android:layout_gravity="left"
+        android:textSize="16dp"
+        android:text="Default Product Text"
+        >
+    </TextView>
+    <TextView
+        android:id="@+id/productPrice"
+        android:layout_gravity="left"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:padding="10dp"
+        android:text="$69.420"
+        android:textSize="22dp"
+        >
+    </TextView>
+
+
+
+
+</LinearLayout>

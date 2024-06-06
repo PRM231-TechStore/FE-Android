@@ -30,9 +30,10 @@ android {
 }
 
 dependencies {
-
     implementation libs.appcompat
     implementation libs.material
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.32'
+    annotationProcessor 'org.projectlombok:lombok:1.18.32'
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
