@@ -12,7 +12,7 @@
         android:text="Sort by"
         android:insetTop="0dp"
         android:insetBottom="0dp"
-        android:gravity="left|center_vertical" />
+        android:gravity="center" />
     <Button
         android:layout_weight="1"
         android:layout_width="wrap_content"
@@ -21,6 +21,6 @@
         android:text="Filter by"
         android:insetTop="0dp"
         android:insetBottom="0dp"
-        android:gravity="left|center_vertical" />
+        android:gravity="center" />
 
 </LinearLayout>
