@@ -7,6 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_blue"
+    android:paddingTop="?android:attr/actionBarSize"
     tools:context=".features.product_details.activities.ProductDetailsActivity">
 
     <fragment
