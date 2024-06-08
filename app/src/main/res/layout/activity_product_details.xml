@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -8,10 +9,20 @@
     android:background="@color/light_blue"
     tools:context=".features.product_details.activities.ProductDetailsActivity">
 
-    <androidx.fragment.app.FragmentContainerView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/fragment_container_view"
+    <fragment
+        android:id="@+id/productDetailsFragmentContainer"
+        android:name="com.prm391.techstore.features.product_details.fragments.ProductDetailsFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:name="com.prm391.techstore.features.product_details.fragments.ProductDetailsFragment" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/checkoutFragmentContainer" />
+
+
+    <fragment
+        android:id="@+id/checkoutFragmentContainer"
+        android:name="com.prm391.techstore.features.product_details.fragments.CheckoutFragment"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true" />
+
+
+</RelativeLayout>

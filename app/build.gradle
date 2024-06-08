@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.android.application)
-    id "com.diffplug.spotless" version "6.25.0"
 }
 
 android {
@@ -36,17 +35,12 @@ dependencies {
     implementation libs.appcompat
     implementation libs.material
     implementation 'com.google.android.material:material:1.2.0'
+    implementation 'com.github.travijuu:numberpicker:1.0.7'
+    implementation 'com.ms-square:expandableTextView:0.1.4'
     compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.32'
     annotationProcessor 'org.projectlombok:lombok:1.18.32'
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
 }
-spotless {
-    java {
-        importOrder()
-        removeUnusedImports()
-        googleJavaFormat().aosp().reflowLongStrings()
-        formatAnnotations()
-    }
-}
+

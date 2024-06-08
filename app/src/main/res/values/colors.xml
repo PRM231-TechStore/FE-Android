@@ -10,4 +10,5 @@
     <color name="dark_blue">#000080</color>
     <color name="light_blue">#F5FBFF</color>
     <color name="transparent">#00FFFFFF</color>
+    <color name="gold">#F5BD02</color>
 </resources>

@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.prm391.techstore.R;
 
 
@@ -27,6 +28,7 @@ public class ProductDetailsFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         view =  inflater.inflate(R.layout.fragment_product_details, container, false);
         InitializeMobilePhoneLinearLayout();
+        InitializeDescriptionExpandableTextView();
         return view;
     }
     private void InitializeMobilePhoneLinearLayout(){
@@ -37,6 +39,10 @@ public class ProductDetailsFragment extends Fragment {
                 MakePhoneCallToStore();
             }
         });
+    }
+    private void InitializeDescriptionExpandableTextView(){
+        ExpandableTextView expTv = (ExpandableTextView) view.findViewById(R.id.expand_text_view).findViewById(R.id.expand_text_view);
+        expTv.setText(getString(R.string.large_text));
     }
     private void MakePhoneCallToStore(){
         String phone = "+84123456789";
