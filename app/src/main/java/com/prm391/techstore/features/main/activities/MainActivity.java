@@ -19,6 +19,7 @@ import com.prm391.techstore.features.test.TestFragment;
 import com.prm391.techstore.constants.ProductListConstants;
 import com.prm391.techstore.databinding.ActivityMainBinding;
 import com.prm391.techstore.features.product_list.fragments.ProductListFragment;
+import com.prm391.techstore.utils.FragmentUtils;
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding activityMainBinding;
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
             super.onCreate(savedInstanceState);
             activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
             setContentView(activityMainBinding.getRoot());
-            ReplaceFragment(new ProductListFragment());
+            FragmentUtils.replace(R.id.mainFrameLayout,new ProductListFragment(),getSupportFragmentManager());
             SetupActionBar();
             SetupBottomNavBar();
 
@@ -77,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                             actionBar.setTitle("Your Cart");
                             fragment = new CartFragment();
                         }
-                        ReplaceFragment(fragment);
+                        FragmentUtils.replace(R.id.mainFrameLayout,fragment,getSupportFragmentManager());
                         return true;
                     }
                 }
@@ -85,11 +86,12 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
-    private void ReplaceFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.mainFrameLayout, fragment);
-        fragmentTransaction.commit();
-    }
+//    private void ReplaceFragment(Fragment fragment) {
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction.replace(R.id.mainFrameLayout, fragment);
+//        fragmentTransaction.commit();
+//        FragmentUtils.Replace(R.id.mainFrameLayout,new ProductListFragment(),getSupportFragmentManager());
+//    }
 }
 
