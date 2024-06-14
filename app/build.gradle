@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
 }
 
+
 android {
     namespace 'com.prm391.techstore'
     compileSdk 34
@@ -34,13 +35,16 @@ android {
 dependencies {
     implementation libs.appcompat
     implementation libs.material
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
     implementation 'com.google.android.material:material:1.2.0'
     implementation 'com.github.travijuu:numberpicker:1.0.7'
     implementation 'com.ms-square:expandableTextView:0.1.4'
+    implementation 'com.github.amarjain07:StickyScrollView:1.0.3'
     compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.32'
     annotationProcessor 'org.projectlombok:lombok:1.18.32'
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
 }
+
 

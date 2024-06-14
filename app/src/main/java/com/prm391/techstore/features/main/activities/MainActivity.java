@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.navigation.NavigationBarView;
 import com.prm391.techstore.R;
+import com.prm391.techstore.features.cart.fragments.CartFragment;
 import com.prm391.techstore.features.test.TestFragment;
 import com.prm391.techstore.constants.ProductListConstants;
 import com.prm391.techstore.databinding.ActivityMainBinding;
@@ -67,10 +68,14 @@ public class MainActivity extends AppCompatActivity {
                         int navMenuItemId = item.getItemId();
                         Fragment fragment = null;
                         if (navMenuItemId == R.id.homeNavMenu) {
+                            ActionBar actionBar = getSupportActionBar();
+                            actionBar.setTitle(ProductListConstants.TITLE_NAME);
                             fragment = new ProductListFragment();
 
                         } else if (navMenuItemId == R.id.cartNavMenu) {
-                            fragment = new TestFragment();
+                            ActionBar actionBar = getSupportActionBar();
+                            actionBar.setTitle("Your Cart");
+                            fragment = new CartFragment();
                         }
                         ReplaceFragment(fragment);
                         return true;
