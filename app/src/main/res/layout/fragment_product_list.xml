@@ -11,6 +11,11 @@
         android:name="com.prm391.techstore.features.product_list.fragments.SearchByFragment"
         android:layout_gravity="start"
         />
+    <ProgressBar
+        android:id="@+id/productListProgressBar"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/productsRecyclerView"
         android:layout_width="match_parent"

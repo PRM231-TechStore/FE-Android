@@ -21,13 +21,17 @@ import com.prm391.techstore.constants.ProductDetailsConstants;
 
 
 public class ProductDetailsActivity extends AppCompatActivity {
+    private String productId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         SetupAndroid();
         SetupActionbar();
+    }
+    public String GetProductIdFromBundles() {
+        Bundle extras = getIntent().getExtras();
+        return extras.getString("productId");
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -39,6 +43,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
     private void SetupAndroid() {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_product_details);
@@ -58,5 +63,6 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
         actionBar.setDisplayHomeAsUpEnabled(true);
     }
+
 
 }

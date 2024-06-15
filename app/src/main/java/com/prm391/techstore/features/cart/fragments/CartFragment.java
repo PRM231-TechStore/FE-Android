@@ -78,12 +78,14 @@ public class CartFragment extends Fragment {
 
     private Product ExtractProductFromJsonObject(JSONObject productJSONObject) throws JSONException, IOException {
         Product product = new Product();
-        product.setId(Integer.parseInt(productJSONObject.getString(ProductListConstants.ID_COL)));
-        product.setName(productJSONObject.getString(ProductListConstants.NAME_COL));
-        product.setDescription(productJSONObject.getString(ProductListConstants.DESCRIPTION_COL));
-        product.setPrice(Double.parseDouble(productJSONObject.getString(ProductListConstants.PRICE_COL)));
-        product.setImage(ImageUtils.getBitmapFromAssets(this.getActivity(),
-                AssetsFolderConstants.PRODUCT_IMAGE_BY_ID(product.getId())));
+        /*TODO: Convert the product's Id to String, and Image to String Url,
+           as it is now retrieved from the API.*/
+//        product.setId(Integer.parseInt(productJSONObject.getString(ProductListConstants.ID_COL)));
+//        product.setName(productJSONObject.getString(ProductListConstants.NAME_COL));
+//        product.setDescription(productJSONObject.getString(ProductListConstants.DESCRIPTION_COL));
+//        product.setPrice(Double.parseDouble(productJSONObject.getString(ProductListConstants.PRICE_COL)));
+//        product.setImage(ImageUtils.getBitmapFromAssets(this.getActivity(),
+//                AssetsFolderConstants.PRODUCT_IMAGE_BY_ID(product.getId())));
         return product;
     }
 

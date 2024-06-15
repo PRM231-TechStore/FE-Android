@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.prm391.techstore.R;
 import com.prm391.techstore.features.product_details.activities.ProductDetailsActivity;
 import com.prm391.techstore.models.Product;
+import com.prm391.techstore.utils.ImageUtils;
 
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Product product = products.get(position);
-        holder.image.setImageBitmap(product.getImage());
+//        holder.image.setImageBitmap(ImageUtils.getBitmapFromUrl(product.getImage()));
         holder.productName.setText( product.getName());
     }
 

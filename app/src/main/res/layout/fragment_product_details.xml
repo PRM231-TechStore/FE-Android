@@ -16,8 +16,13 @@
             android:layout_height="300dp"
             android:layout_marginBottom="10dp"
             android:src="@mipmap/ic_launcher"></ImageView>
-
+        <ProgressBar
+            android:id="@+id/productDetailsProgressBar"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
         <TextView
+            android:id="@+id/productDetails_ProductName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
@@ -26,6 +31,7 @@
             android:textStyle="normal" />
 
         <TextView
+            android:id="@+id/productDetails_ProductPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
