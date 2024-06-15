@@ -6,14 +6,16 @@ plugins {
 android {
     namespace 'com.prm391.techstore'
     compileSdk 34
-
+    buildFeatures {
+        buildConfig = true
+    }
     defaultConfig {
         applicationId "com.prm391.techstore"
         minSdk 26
         targetSdk 34
         versionCode 1
         versionName "1.0"
-
+        buildConfigField "String", "TECHSTORE_URL", "\"${System.getenv("TECHSTORE_URL") ?: "https://default.example.com"}\""
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 

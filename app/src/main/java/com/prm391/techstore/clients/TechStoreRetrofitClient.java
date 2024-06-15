@@ -1,5 +1,9 @@
 package com.prm391.techstore.clients;
 
+import com.prm391.techstore.BuildConfig;
+
+import java.util.Map;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -13,10 +17,10 @@ public class TechStoreRetrofitClient {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
-
+        String techStoreUrl = BuildConfig.TECHSTORE_URL;
 
         retrofit = new Retrofit.Builder()
-                .baseUrl(TechStoreAPIEndpoints.SERVER_URL)
+                .baseUrl(techStoreUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
