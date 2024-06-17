@@ -7,60 +7,72 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Spinner;
 
 import com.prm391.techstore.R;
+import com.prm391.techstore.constants.ProductListConstants;
+import com.prm391.techstore.features.product_list.adapters.CategoryAdapter;
+import com.prm391.techstore.features.product_list.spinners.CustomSpinner;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SearchByFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class SearchByFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public SearchByFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SearchByFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static SearchByFragment newInstance(String param1, String param2) {
-        SearchByFragment fragment = new SearchByFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
+    private View view;
+    private CategoryAdapter filterByAdapter;
+    private CategoryAdapter sortByAdapter;
+    private CustomSpinner filterBySpinner;
+    private CustomSpinner sortBySpinner;
+    public SearchByFragment() {}
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search_by, container, false);
+
+        view = inflater.inflate(R.layout.fragment_search_by, container, false);
+        try {
+            super.onCreate(savedInstanceState);
+            InitializeClassVariables();
+            InitializeSortBySpinner();
+            InitializeFilterSpinner();
+
+        } catch (Exception e) {
+            e.getMessage();
+        }
+        return view;
+    }
+    private void InitializeClassVariables(){
+        filterByAdapter = new CategoryAdapter(this.getContext(), ProductListConstants.FILTER_BY_CATEGORIES);
+        sortByAdapter = new CategoryAdapter(this.getContext(), ProductListConstants.SORT_BY_CATEGORIES);
+    }
+
+    private void InitializeSortBySpinner(){
+        sortBySpinner = view.findViewById(R.id.productList_sortBySpinner);
+        sortBySpinner.setSpinnerEventsListener(new CustomSpinner.OnSpinnerEventsListener() {
+            @Override
+            public void onPopupWindowOpened(Spinner spinner) {
+                sortBySpinner.setBackground(getResources().getDrawable(R.drawable.bg_sort_by_spinner_up));
+            }
+
+            @Override
+            public void onPopupWindowClosed(Spinner spinner) {
+                sortBySpinner.setBackground(getResources().getDrawable(R.drawable.bg_sort_by_spinner_down));
+            }
+        });
+        sortBySpinner.setAdapter(sortByAdapter);
+
+    }
+    private void InitializeFilterSpinner(){
+        filterBySpinner = view.findViewById(R.id.productList_filterBySpinner);
+        filterBySpinner.setSpinnerEventsListener(new CustomSpinner.OnSpinnerEventsListener() {
+            @Override
+            public void onPopupWindowOpened(Spinner spinner) {
+                filterBySpinner.setBackground(getResources().getDrawable(R.drawable.bg_filter_by_spinner_up));
+            }
+
+            @Override
+            public void onPopupWindowClosed(Spinner spinner) {
+                filterBySpinner.setBackground(getResources().getDrawable(R.drawable.bg_filter_by_spinner_down));
+            }
+        });
+        filterBySpinner.setAdapter(filterByAdapter);
+
     }
 }

@@ -12,12 +12,13 @@
         tools:context=".features.product_details.fragments.ProductDetailsFragment">
 
         <ImageView
+            android:id="@+id/productDetails_Image"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:layout_marginBottom="10dp"
             android:src="@mipmap/ic_launcher"></ImageView>
         <ProgressBar
-            android:id="@+id/productDetailsProgressBar"
+            android:id="@+id/productDetails_ProgressBar"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"/>

@@ -25,8 +25,6 @@ public class TechStoreRetrofitClient {
                 .client(client)
                 .build();
 
-
-
         return retrofit;
     }
 }

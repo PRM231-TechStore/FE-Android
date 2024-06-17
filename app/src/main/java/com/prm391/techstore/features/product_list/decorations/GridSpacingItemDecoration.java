@@ -1,4 +1,4 @@
-package com.prm391.techstore.features.product_list.adapters;
+package com.prm391.techstore.features.product_list.decorations;
 
 import android.graphics.Rect;
 import android.view.View;

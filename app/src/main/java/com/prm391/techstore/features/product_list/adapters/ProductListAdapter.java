@@ -27,11 +27,9 @@ import java.util.concurrent.Executors;
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewHolder> {
     private List<Product> products;
     private Context context;
-    private ExecutorService executorService;
     public ProductListAdapter(Context context, List<Product> products){
         this.context = context;
         this.products = products;
-        this.executorService = Executors.newSingleThreadExecutor();
     }
     @NonNull
     @Override
@@ -44,7 +42,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Product product = products.get(position);
-        holder.bind(product, executorService);
+        holder.bind(product);
     }
 
     @Override
@@ -84,20 +82,16 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             });
             this.handler = new Handler(Looper.getMainLooper());
         }
-        public void bind(Product product, ExecutorService executorService) {
+        public void bind(Product product) {
             this.productName.setText(product.getName());
             this.productPrice.setText(String.format("%1$,.0f VND",product.getPrice()));
-            executorService.execute(() -> {
-                Bitmap image = null;
-                try {
-                    java.io.InputStream in = new java.net.URL(product.getImage()).openStream();
-                    image = BitmapFactory.decodeStream(in);
-
-                    final Bitmap finalImage = image;
-                    // Only for making changes in UI
-                    handler.post(() -> this.productImageView.setImageBitmap(finalImage));
-                } catch (Exception e) {
-                    e.printStackTrace();
+            Executors.newSingleThreadExecutor().execute(() -> {
+                Bitmap bitmap = ImageUtils.getBitmapFromUrl(product.getImage());
+                if (bitmap != null) {
+                    new Handler(Looper.getMainLooper()).post(() -> {
+                        // Set the Bitmap to the ImageView on the main thread
+                        this.productImageView.setImageBitmap(bitmap);
+                    });
                 }
             });
         }

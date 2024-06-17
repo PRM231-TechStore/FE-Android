@@ -1,11 +1,15 @@
 package com.prm391.techstore.features.product_details.fragments;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -22,6 +26,9 @@ import com.prm391.techstore.features.product_details.activities.ProductDetailsAc
 import com.prm391.techstore.models.Product;
 import com.prm391.techstore.models.ProductByIdResponse;
 import com.prm391.techstore.models.ProductListResponse;
+import com.prm391.techstore.utils.ImageUtils;
+
+import java.util.concurrent.Executors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,7 +55,7 @@ public class ProductDetailsFragment extends Fragment {
     }
     private void InitializeClassVariables(){
         techStoreAPIInterface = TechStoreRetrofitClient.getClient().create(TechStoreAPIInterface.class);
-        productDetailsProgressBar = view.findViewById(R.id.productDetailsProgressBar);
+        productDetailsProgressBar = view.findViewById(R.id.productDetails_ProgressBar);
     }
     private void GetProductById(){
         ProductDetailsActivity activity = (ProductDetailsActivity) getActivity();
@@ -75,6 +82,7 @@ public class ProductDetailsFragment extends Fragment {
         BindNameToTextView();
         BindPriceToTextView();
         BindDescriptionToExpandableTextView();
+        BindImageToImageView();
     }
     private void BindNameToTextView(){
         TextView productNameTextView = view.findViewById(R.id.productDetails_ProductName);
@@ -85,8 +93,20 @@ public class ProductDetailsFragment extends Fragment {
         productPriceTextView.setText(String.format("%1$,.0f VND",product.getPrice()));
     }
     private void BindDescriptionToExpandableTextView(){
-        ExpandableTextView expTv = (ExpandableTextView) view.findViewById(R.id.expand_text_view).findViewById(R.id.expand_text_view);
+        ExpandableTextView expTv = (ExpandableTextView) view.findViewById(R.id.expand_text_view);
         expTv.setText(product.getDescription());
+    }
+    private void BindImageToImageView(){
+        ImageView imageView =  view.findViewById(R.id.productDetails_Image);
+        Executors.newSingleThreadExecutor().execute(() -> {
+            Bitmap bitmap = ImageUtils.getBitmapFromUrl(product.getImage());
+            if (bitmap != null) {
+                new Handler(Looper.getMainLooper()).post(() -> {
+                    // Set the Bitmap to the ImageView on the main thread
+                    imageView.setImageBitmap(bitmap);
+                });
+            }
+        });
     }
     private void InitializeMobilePhoneLinearLayout(){
         mobilePhoneLinearLayout = view.findViewById(R.id.mobilePhoneLinearLayout);

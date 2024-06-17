@@ -9,7 +9,7 @@
 
     <stroke
         android:width="3dp"
-        android:color="@color/purple_500" >
+        android:color="@color/dark_blue" >
     </stroke>
 
     <padding

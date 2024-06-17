@@ -1,6 +1,5 @@
 package com.prm391.techstore.features.product_list.fragments;
 
-import android.app.Activity;
 import android.os.Bundle;
 
 import com.prm391.techstore.clients.TechStoreAPIInterface;
@@ -14,23 +13,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import android.widget.ProgressBar;
 
 import com.prm391.techstore.R;
-import com.prm391.techstore.constants.AssetsFolderConstants;
-import com.prm391.techstore.constants.ProductListConstants;
 import com.prm391.techstore.constants.RecyclerViewConstants;
-import com.prm391.techstore.features.product_list.adapters.GridSpacingItemDecoration;
+import com.prm391.techstore.features.product_list.decorations.GridSpacingItemDecoration;
 import com.prm391.techstore.models.Product;
 import com.prm391.techstore.models.ProductListResponse;
-import com.prm391.techstore.utils.ImageUtils;
-import com.prm391.techstore.utils.JsonUtils;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 

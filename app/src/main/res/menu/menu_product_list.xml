@@ -4,8 +4,9 @@
     tools:context=".MainActivity">
 
     <item
-        android:id="@+id/message"
+        android:id="@+id/productList_searchMenuItem"
         android:icon="@android:drawable/ic_menu_search"
         android:title="Search"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom|collapseActionView"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"/>
 </menu>

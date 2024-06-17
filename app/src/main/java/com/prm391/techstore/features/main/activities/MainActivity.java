@@ -3,6 +3,8 @@ package com.prm391.techstore.features.main.activities;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import androidx.appcompat.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -43,14 +45,32 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_product_list, menu);
+        SetupSearchMenuItem(menu);
+
         return true;
+    }
+    private void SetupSearchMenuItem(Menu menu){
+        MenuItem searchMenuItem = menu.findItem(R.id.productList_searchMenuItem);
+        MenuItem.OnActionExpandListener onActionExpandListener = new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(@NonNull MenuItem item) {
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(@NonNull MenuItem item) {
+                return true;
+            }
+        };
+        searchMenuItem.setOnActionExpandListener(onActionExpandListener);
+        SearchView searchView =(SearchView) menu.findItem(R.id.productList_searchMenuItem).getActionView();
+        searchView.setQueryHint(ProductListConstants.SEARCH_PLACEHOLDER_TEXT);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                this.finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -85,13 +105,5 @@ public class MainActivity extends AppCompatActivity {
 
         );
     }
-
-//    private void ReplaceFragment(Fragment fragment) {
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.replace(R.id.mainFrameLayout, fragment);
-//        fragmentTransaction.commit();
-//        FragmentUtils.Replace(R.id.mainFrameLayout,new ProductListFragment(),getSupportFragmentManager());
-//    }
 }
 

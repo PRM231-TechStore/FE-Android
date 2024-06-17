@@ -1,15 +1,9 @@
 package com.prm391.techstore.constants;
 
 public class ProductListConstants {
-    public static final String ID_COL = "id";
-
-    // below variable is for our course name column
-    public static final String NAME_COL = "product_name";
     public static String TITLE_NAME = "All Products";
+    public static String SEARCH_PLACEHOLDER_TEXT = "Enter product name here...";
+    public static final String[] SORT_BY_CATEGORIES = {"Sort by...","Hehe","Hihi"};
+    public static final String[] FILTER_BY_CATEGORIES = {"Filter by...","Price","Name"};
 
-    // below variable id for our course duration column.
-    public static final String DESCRIPTION_COL = "product_description";
-
-    // below variable for our course description column.
-    public static final String PRICE_COL = "product_price";
 }

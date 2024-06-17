@@ -3,24 +3,24 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:drawableLeft="@drawable/ic_sort"
-        android:text="Sort by"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
-        android:gravity="center" />
-    <Button
+    <com.prm391.techstore.features.product_list.spinners.CustomSpinner
+        android:id="@+id/productList_sortBySpinner"
         android:layout_weight="1"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:drawableLeft="@drawable/ic_filter"
         android:text="Filter by"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
+        android:dropDownVerticalOffset="40dp"
+        android:background="@drawable/bg_sort_by_spinner_down"/>
+    <com.prm391.techstore.features.product_list.spinners.CustomSpinner
+        android:id="@+id/productList_filterBySpinner"
+        android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="Sort by"
+        android:dropDownVerticalOffset="40dp"
+        android:background="@drawable/bg_filter_by_spinner_down"
+
         android:gravity="center" />
+
 
 </LinearLayout>
