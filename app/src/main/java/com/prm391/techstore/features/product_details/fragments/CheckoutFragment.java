@@ -1,66 +1,72 @@
 package com.prm391.techstore.features.product_details.fragments;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.prm391.techstore.R;
+import com.prm391.techstore.constants.ProductDetailsConstants;
+import com.prm391.techstore.utils.DialogUtils;
+import com.travijuu.numberpicker.library.NumberPicker;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link CheckoutFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class CheckoutFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+   private View view;
+   private NumberPicker quantityPicker;
+   private Button addToCartButton;
 
     public CheckoutFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CheckoutFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static CheckoutFragment newInstance(String param1, String param2) {
-        CheckoutFragment fragment = new CheckoutFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        view =  inflater.inflate(R.layout.fragment_checkout, container, false);
+        InitializeClassVariables();
+        return view;
+    }
+    private void InitializeClassVariables(){
+        quantityPicker = view.findViewById(R.id.quantityPicker);
+        InitializeAddToCartButton();
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+    private void InitializeAddToCartButton(){
+        addToCartButton = view.findViewById(R.id.addToCartButton);
+        addToCartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int quantity = quantityPicker.getValue();
+                if (quantity==0) ShowInvalidQuantityDialog();
+                else{
+                    ShowAddToCartSuccessfulDialog();
+                    //Xử lý logic thêm sản phẩm vô giỏ hàng ở đây
+                }
+            }
+        });
     }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_checkout, container, false);
+    private void ShowInvalidQuantityDialog(){
+        AlertDialog invalidQuantityDialog = DialogUtils.getBasicDialog(view.getContext(),
+                ProductDetailsConstants.WARNING_DIALOG_TITLE,
+                ProductDetailsConstants.INVALID_QUANTITY_MESSAGE);
+        invalidQuantityDialog.show();
+    }
+    private void ShowAddToCartSuccessfulDialog(){
+        AlertDialog invalidQuantityDialog = DialogUtils.getBasicDialog(view.getContext(),
+                ProductDetailsConstants.INFO_DIALOG_TITLE,
+                ProductDetailsConstants.ADD_TO_CART_SUCCESSFULLY);
+        invalidQuantityDialog.show();
     }
 }
