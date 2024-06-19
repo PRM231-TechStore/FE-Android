@@ -45,6 +45,11 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         holder.bind(product);
     }
 
+    public void updateData(List<Product> newProductList) {
+        this.products.clear();
+        this.products.addAll(newProductList);
+        notifyDataSetChanged();
+    }
     @Override
     public int getItemCount() {
         return products.size();

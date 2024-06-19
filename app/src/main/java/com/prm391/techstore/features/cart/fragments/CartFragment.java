@@ -3,7 +3,6 @@ package com.prm391.techstore.features.cart.fragments;
 import android.os.Bundle;
 
 import com.prm391.techstore.features.cart.adapters.CartAdapter;
-import com.prm391.techstore.features.product_list.adapters.ProductListAdapter;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -14,10 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.prm391.techstore.R;
-import com.prm391.techstore.constants.AssetsFolderConstants;
-import com.prm391.techstore.constants.ProductListConstants;
 import com.prm391.techstore.models.Product;
-import com.prm391.techstore.utils.ImageUtils;
 import com.prm391.techstore.utils.JsonUtils;
 
 import org.json.JSONArray;

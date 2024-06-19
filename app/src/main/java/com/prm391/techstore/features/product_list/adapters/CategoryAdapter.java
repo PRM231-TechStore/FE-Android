@@ -10,11 +10,12 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.prm391.techstore.R;
+import com.prm391.techstore.models.Category;
 
 public class CategoryAdapter extends BaseAdapter {
     private Context context;
-    private String[] categories;
-    public CategoryAdapter(Context context, String[] categories){
+    private Category[] categories;
+    public CategoryAdapter(Context context, Category[] categories){
 
         this.context = context;
         this.categories = categories;
@@ -26,7 +27,7 @@ public class CategoryAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return categories[position];
     }
 
     @Override
@@ -38,7 +39,7 @@ public class CategoryAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View rootView = LayoutInflater.from(context).inflate(R.layout.spinner_item_layout,parent,false);
         TextView categoryTxt = rootView.findViewById(R.id.filterByCategory_TextView);
-        categoryTxt.setText(categories[position]);
+        categoryTxt.setText(categories[position].getName());
         return rootView;
     }
 }

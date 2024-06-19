@@ -3,37 +3,35 @@ package com.prm391.techstore.features.main.activities;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+
 import androidx.appcompat.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 
 import com.google.android.material.navigation.NavigationBarView;
 import com.prm391.techstore.R;
+import com.prm391.techstore.constants.MainActivityConstants;
 import com.prm391.techstore.features.cart.fragments.CartFragment;
-import com.prm391.techstore.features.test.TestFragment;
-import com.prm391.techstore.constants.ProductListConstants;
+import com.prm391.techstore.constants.SearchByConstants;
 import com.prm391.techstore.databinding.ActivityMainBinding;
 import com.prm391.techstore.features.product_list.fragments.ProductListFragment;
 import com.prm391.techstore.utils.FragmentUtils;
 
 public class MainActivity extends AppCompatActivity {
-    ActivityMainBinding activityMainBinding;
-
-
+    private ActivityMainBinding activityMainBinding;
+    private SearchView searchView;
+    private MenuItem searchMenuItem;
+    private MainActivityViewModel mainActivityViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         try {
             super.onCreate(savedInstanceState);
-            activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
-            setContentView(activityMainBinding.getRoot());
-            FragmentUtils.replace(R.id.mainFrameLayout,new ProductListFragment(),getSupportFragmentManager());
+            InitializeChildComponents();
             SetupActionBar();
             SetupBottomNavBar();
 
@@ -45,12 +43,30 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_product_list, menu);
-        SetupSearchMenuItem(menu);
-
+        InitializeSearch(menu);
         return true;
     }
-    private void SetupSearchMenuItem(Menu menu){
-        MenuItem searchMenuItem = menu.findItem(R.id.productList_searchMenuItem);
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    private void InitializeChildComponents(){
+        activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(activityMainBinding.getRoot());
+        FragmentUtils.replace(R.id.mainFrameLayout, new ProductListFragment(), getSupportFragmentManager());
+        mainActivityViewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
+    }
+    private void InitializeSearch(Menu menu) {
+        InitializeSearchMenu(menu);
+        InitializeSearchView(menu);
+    }
+
+    private void InitializeSearchMenu(Menu menu) {
+        searchMenuItem = menu.findItem(R.id.productList_searchMenuItem);
         MenuItem.OnActionExpandListener onActionExpandListener = new MenuItem.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(@NonNull MenuItem item) {
@@ -63,22 +79,52 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         searchMenuItem.setOnActionExpandListener(onActionExpandListener);
-        SearchView searchView =(SearchView) menu.findItem(R.id.productList_searchMenuItem).getActionView();
-        searchView.setQueryHint(ProductListConstants.SEARCH_PLACEHOLDER_TEXT);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
+    private void InitializeSearchView(Menu menu) {
+        searchView = (SearchView) menu.findItem(R.id.productList_searchMenuItem).getActionView();
+        searchView.setQueryHint(MainActivityConstants.SEARCH_PLACEHOLDER_TEXT);
+        searchView.setIconified(true);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String keyword) {
+                LoadProductsListBySearchKeyword(keyword);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                LoadProductsListBySearchKeyword(null);
+                return false;
+            }
+        });
     }
+
+    private void LoadProductsListBySearchKeyword(String keyword) {
+        try {
+            // Pass the keyword to the already running fragment in this activity
+            ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentById(R.id.mainFrameLayout);
+            if (fragment != null) {
+                mainActivityViewModel.getSearchTerm().setValue(keyword);
+                fragment.GetProductsFromAPI();
+            }
+            searchView.clearFocus(); //prevents the API from being called twice.
+        } catch (Exception e) {
+            e.getMessage();
+        }
+    }
+
+
 
     private void SetupActionBar() {
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(ProductListConstants.TITLE_NAME);
+        actionBar.setTitle(MainActivityConstants.ALL_PRODUCTS_TITLE);
     }
 
     private void SetupBottomNavBar() {
@@ -90,15 +136,15 @@ public class MainActivity extends AppCompatActivity {
                         Fragment fragment = null;
                         if (navMenuItemId == R.id.homeNavMenu) {
                             ActionBar actionBar = getSupportActionBar();
-                            actionBar.setTitle(ProductListConstants.TITLE_NAME);
+                            actionBar.setTitle(MainActivityConstants.ALL_PRODUCTS_TITLE);
                             fragment = new ProductListFragment();
 
                         } else if (navMenuItemId == R.id.cartNavMenu) {
                             ActionBar actionBar = getSupportActionBar();
-                            actionBar.setTitle("Your Cart");
+                            actionBar.setTitle(MainActivityConstants.CART_TITLE);
                             fragment = new CartFragment();
                         }
-                        FragmentUtils.replace(R.id.mainFrameLayout,fragment,getSupportFragmentManager());
+                        FragmentUtils.replace(R.id.mainFrameLayout, fragment, getSupportFragmentManager());
                         return true;
                     }
                 }

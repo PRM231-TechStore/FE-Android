@@ -4,9 +4,11 @@ import android.os.Bundle;
 
 import com.prm391.techstore.clients.TechStoreAPIInterface;
 import com.prm391.techstore.clients.TechStoreRetrofitClient;
+import com.prm391.techstore.features.main.activities.MainActivityViewModel;
 import com.prm391.techstore.features.product_list.adapters.ProductListAdapter;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,6 +22,7 @@ import com.prm391.techstore.R;
 import com.prm391.techstore.constants.RecyclerViewConstants;
 import com.prm391.techstore.features.product_list.decorations.GridSpacingItemDecoration;
 import com.prm391.techstore.models.Product;
+import com.prm391.techstore.models.ProductListQueryConditions;
 import com.prm391.techstore.models.ProductListResponse;
 
 import java.util.ArrayList;
@@ -28,6 +31,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.Query;
 
 public class ProductListFragment extends Fragment {
 
@@ -35,7 +39,9 @@ public class ProductListFragment extends Fragment {
     private View view;
     private RecyclerView productsRecyclerView;
     private ProgressBar productListProgressBar;
+    private ProductListAdapter productListAdapter;
     private TechStoreAPIInterface techStoreAPIInterface;
+    private MainActivityViewModel mainActivityViewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,22 +62,30 @@ public class ProductListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
-
-    private void InitializeClassVariables() {
-        productList = new ArrayList<>();
-        techStoreAPIInterface = TechStoreRetrofitClient.getClient().create(TechStoreAPIInterface.class);
-        productListProgressBar = view.findViewById(R.id.productListProgressBar);
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(!hidden)
+            mainActivityViewModel.ClearAllSearchCategories();
     }
 
-    private void GetProductsFromAPI() throws Exception{
-        Call<ProductListResponse> call = techStoreAPIInterface.getProducts();
+    public void GetProductsFromAPI() throws Exception{
+        productListProgressBar.setVisibility(View.VISIBLE);
+        Call<ProductListResponse> call = techStoreAPIInterface.getProducts(
+                mainActivityViewModel.getSearchTerm().getValue(),
+                mainActivityViewModel.getSortBy().getValue(),
+                mainActivityViewModel.getSortOrder().getValue(),
+                mainActivityViewModel.getMinPrice().getValue(),
+                mainActivityViewModel.getMaxPrice().getValue(),
+                mainActivityViewModel.getPageNumber().getValue(),
+                mainActivityViewModel.getPageSize().getValue()
+        );
         call.enqueue(new Callback<ProductListResponse>() {
             @Override
             public void onResponse(Call<ProductListResponse> call, Response<ProductListResponse> response) {
                 ProductListResponse responseBody = response.body();
                 productList = responseBody.data.items;
-                InitializeProductsRecyclerView();
+                productListAdapter.updateData(productList);
                 productListProgressBar.setVisibility(View.GONE);
             }
 
@@ -82,6 +96,13 @@ public class ProductListFragment extends Fragment {
         });
     }
 
+    private void InitializeClassVariables() {
+        productList = new ArrayList<>();
+        techStoreAPIInterface = TechStoreRetrofitClient.getClient().create(TechStoreAPIInterface.class);
+        productListProgressBar = view.findViewById(R.id.productListProgressBar);
+        mainActivityViewModel = new ViewModelProvider(requireActivity()).get(MainActivityViewModel.class);
+        InitializeProductsRecyclerView();
+    }
     private void InitializeProductsRecyclerView() {
         productsRecyclerView = view.findViewById(R.id.productsRecyclerView);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity().getApplicationContext(),
@@ -92,8 +113,9 @@ public class ProductListFragment extends Fragment {
                 RecyclerViewConstants.SPACING,
                 RecyclerViewConstants.INCLUDE_EDGE
         ));
-        ProductListAdapter adapter = new ProductListAdapter(getActivity().getApplicationContext(), productList);
-        productsRecyclerView.setAdapter(adapter);
+        productListAdapter = new ProductListAdapter(getActivity().getApplicationContext(), productList);
+        productsRecyclerView.setAdapter(productListAdapter);
     }
+
 
 }
