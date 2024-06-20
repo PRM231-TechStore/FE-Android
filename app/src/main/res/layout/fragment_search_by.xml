@@ -2,25 +2,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
-    <com.prm391.techstore.features.product_list.spinners.CustomSpinner
-        android:id="@+id/productList_sortBySpinner"
-        android:layout_weight="1"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:text="Filter by"
-        android:dropDownVerticalOffset="40dp"
-        android:background="@drawable/bg_sort_by_spinner_down"/>
-    <com.prm391.techstore.features.product_list.spinners.CustomSpinner
-        android:id="@+id/productList_filterBySpinner"
-        android:layout_weight="1"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:text="Sort by"
-        android:dropDownVerticalOffset="40dp"
-        android:background="@drawable/bg_filter_by_spinner_down"
+    android:orientation="horizontal"
+    android:weightSum="2">
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/productList_openFilterDialogButton"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:text="Price Filter"
+        android:background="@drawable/bg_filter_by_spinner_down"
         android:gravity="center" />
 
 
+    <com.prm391.techstore.features.product_list.spinners.CustomSpinner
+        android:id="@+id/productList_sortBySpinner"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:text="Sort By"
+        android:dropDownVerticalOffset="40dp"
+        android:background="@drawable/bg_sort_by_spinner_down"/>
 </LinearLayout>

@@ -26,4 +26,8 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:background">@color/dark_blue</item>
     </style>
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/bottom_sheet_slide_in</item>
+        <item name="android:windowExitAnimation">@anim/bottom_sheet_slide_out</item>
+    </style>
 </resources>

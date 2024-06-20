@@ -5,12 +5,20 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
     <fragment
+        android:id="@+id/laptopBrandsFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:name="com.prm391.techstore.features.product_list.fragments.LaptopBrandsFragment"
+        android:layout_gravity="start"
+        />
+    <fragment
         android:id="@+id/searchByFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:name="com.prm391.techstore.features.product_list.fragments.SearchByFragment"
         android:layout_gravity="start"
         />
+
     <ProgressBar
         android:id="@+id/productListProgressBar"
         android:layout_gravity="center"
