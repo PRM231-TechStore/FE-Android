@@ -6,7 +6,7 @@
     android:weightSum="2">
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/productList_openFilterDialogButton"
+        android:id="@+id/productList_openPriceBottomSheetButton"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="match_parent"
@@ -15,8 +15,8 @@
         android:gravity="center" />
 
 
-    <com.prm391.techstore.features.product_list.spinners.CustomSpinner
-        android:id="@+id/productList_sortBySpinner"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/productList_openSortByBottomSheetButton"
         android:layout_weight="1"
         android:layout_width="0dp"
         android:layout_height="match_parent"

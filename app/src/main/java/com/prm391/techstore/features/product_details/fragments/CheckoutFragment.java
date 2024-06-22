@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.prm391.techstore.R;
+import com.prm391.techstore.constants.DialogConstants;
 import com.prm391.techstore.constants.ProductDetailsConstants;
 import com.prm391.techstore.utils.DialogUtils;
 import com.travijuu.numberpicker.library.NumberPicker;
@@ -59,13 +60,13 @@ public class CheckoutFragment extends Fragment {
     }
     private void ShowInvalidQuantityDialog(){
         AlertDialog invalidQuantityDialog = DialogUtils.getBasicDialog(view.getContext(),
-                ProductDetailsConstants.WARNING_DIALOG_TITLE,
+                DialogConstants.WARNING_DIALOG_TITLE,
                 ProductDetailsConstants.INVALID_QUANTITY_MESSAGE);
         invalidQuantityDialog.show();
     }
     private void ShowAddToCartSuccessfulDialog(){
         AlertDialog invalidQuantityDialog = DialogUtils.getBasicDialog(view.getContext(),
-                ProductDetailsConstants.INFO_DIALOG_TITLE,
+                DialogConstants.INFO_DIALOG_TITLE,
                 ProductDetailsConstants.ADD_TO_CART_SUCCESSFULLY);
         invalidQuantityDialog.show();
     }

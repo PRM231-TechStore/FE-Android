@@ -1,23 +1,32 @@
 package com.prm391.techstore.features.product_list.fragments;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.prm391.techstore.R;
+import com.prm391.techstore.utils.ImageUtils;
+
+import java.util.concurrent.Executors;
 
 
 public class LaptopBrandsFragment extends Fragment {
 
     private View view;
-    private String[] brands = {"HP", "Lenovo", "Dell", "Apple", "Asus", "Acer"};
+    private String hpLogoUrl = "https://inkythuatso.com/uploads/thumbnails/800/2021/11/logo-hp-inkythuatso-3-01-26-10-51-17.jpg";
+    private String[] brands = {"HP","Lenovo","Dell","Apple"};
     private LinearLayout laptopBrandsLinearLayout;
+    private LayoutInflater layoutInflater;
     public LaptopBrandsFragment() {
         // Required empty public constructor
     }
@@ -26,6 +35,7 @@ public class LaptopBrandsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        this.layoutInflater = inflater;
         view = inflater.inflate(R.layout.fragment_laptop_brands, container, false);
         InitializeClassVariables();
         return view;
@@ -33,24 +43,30 @@ public class LaptopBrandsFragment extends Fragment {
     private void InitializeClassVariables(){
         laptopBrandsLinearLayout = view.findViewById(R.id.laptopBrandsLinearLayout);
         for (String brand : brands) {
-            Button button = new Button(this.getContext());
-            button.setText(brand);
-            button.setAllCaps(false);
-            button.setPadding(16, 8, 16, 8);
-            // You can set button style and attributes here
-            button.setTextColor(getResources().getColor(R.color.white)); // Set the text color
-            button.setBackgroundColor(getResources().getColor(R.color.dark_blue));
-
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Handle button click
-                    // For example, filter products by selected brand
-//                    filterProductsByBrand(brand);
-                }
-            });
-
-            laptopBrandsLinearLayout.addView(button);
+            ImageButton laptopBrandImageButton = BuildLaptopBrandImageButton();
+            laptopBrandsLinearLayout.addView(laptopBrandImageButton);
         }
+    }
+    private ImageButton BuildLaptopBrandImageButton(){
+        ImageButton laptopBrandImageButton =(ImageButton) layoutInflater.inflate(R.layout.laptop_brand_single_item,laptopBrandsLinearLayout,false);
+
+        Executors.newSingleThreadExecutor().execute(() -> {
+            Bitmap bitmap = ImageUtils.getBitmapFromUrl(hpLogoUrl);
+            Bitmap resizedBitmap = ImageUtils.resizeBitmap(bitmap,120,120);
+            if (bitmap != null) {
+                new Handler(Looper.getMainLooper()).post(() -> {
+                    // Set the Bitmap to the ImageView on the main thread
+                    laptopBrandImageButton.setImageBitmap(resizedBitmap);
+                });
+            }
+        });
+        laptopBrandImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        return laptopBrandImageButton;
+
     }
 }
