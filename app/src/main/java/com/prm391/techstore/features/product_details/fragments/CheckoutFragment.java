@@ -2,6 +2,7 @@ package com.prm391.techstore.features.product_details.fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,10 +14,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.prm391.techstore.R;
 import com.prm391.techstore.constants.ProductDetailsConstants;
+import com.prm391.techstore.features.product_details.activities.ProductDetailsActivity;
 import com.prm391.techstore.utils.DialogUtils;
 import com.travijuu.numberpicker.library.NumberPicker;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
+import java.util.Dictionary;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class CheckoutFragment extends Fragment {
@@ -40,6 +57,8 @@ public class CheckoutFragment extends Fragment {
     }
     private void InitializeClassVariables(){
         quantityPicker = view.findViewById(R.id.quantityPicker);
+        int cartAmount = ((ProductDetailsActivity) getActivity()).getIntent().getExtras().getInt("cartAmount");
+        quantityPicker.setValue(cartAmount);
         InitializeAddToCartButton();
     }
 
@@ -51,8 +70,45 @@ public class CheckoutFragment extends Fragment {
                 int quantity = quantityPicker.getValue();
                 if (quantity==0) ShowInvalidQuantityDialog();
                 else{
+                    String contents = "";
+                    ProductDetailsActivity activity = (ProductDetailsActivity) getActivity();
+                    Map<String, Integer> productAmount = new HashMap<>();
+                    FileInputStream fis = null;
+                    try {
+                        fis = getContext().openFileInput("cart");
+                        InputStreamReader inputStreamReader =
+                                new InputStreamReader(fis, StandardCharsets.UTF_8);
+                        StringBuilder stringBuilder = new StringBuilder();
+                        try (BufferedReader reader = new BufferedReader(inputStreamReader)) {
+                            String line = reader.readLine();
+                            while (line != null) {
+                                stringBuilder.append(line).append('\n');
+                                line = reader.readLine();
+                            }
+                        } catch (IOException e) {
+                            // Error occurred when opening raw file for reading.
+                        } finally {
+                            contents = stringBuilder.toString();
+                        }
+
+                        Gson gson = new Gson();
+                        Type type = new TypeToken<Map<String, Integer>>(){}.getType();
+                        if (!contents.isEmpty()) {
+                            productAmount = gson.fromJson(contents, type);
+                        }
+                    } catch (FileNotFoundException e) {
+
+                    }
+                    productAmount.put(activity.GetProductIdFromBundles(), quantity);
+                    try (FileOutputStream fos = getContext().openFileOutput("cart", Context.MODE_PRIVATE)) {
+                        Gson gson = new Gson();
+                        String json = gson.toJson(productAmount);
+                        fos.write(json.getBytes());
+                    } catch (Exception ignored) {
+
+                    }
+
                     ShowAddToCartSuccessfulDialog();
-                    //Xử lý logic thêm sản phẩm vô giỏ hàng ở đây
                 }
             }
         });
