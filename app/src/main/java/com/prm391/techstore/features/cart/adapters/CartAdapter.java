@@ -40,8 +40,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     private List<CartProduct> products;
     private Context context;
     private TextView priceView;
-    private float total;
-    public CartAdapter(Context context, List<CartProduct> products, TextView priceView, float total){
+    private double total;
+    public CartAdapter(Context context, List<CartProduct> products, TextView priceView, double total){
         this.context = context;
         this.products = products;
         this.priceView = priceView;
@@ -145,8 +145,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                     }
                     productAmount.remove(product.getId());
                     products.remove(product);
-                    total -= (float) (product.getPrice() * product.getAmount());
-                    priceView.setText(String.format("%1$.0f VND", total));
+                    total -= product.getPrice() * product.getAmount();
+                    priceView.setText(String.format("%1$,.0f VND", total));
                     try (FileOutputStream fos = context.openFileOutput("cart", Context.MODE_PRIVATE)) {
                         Gson gson = new Gson();
                         String json = gson.toJson(productAmount);

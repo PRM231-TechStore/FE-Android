@@ -49,7 +49,7 @@ import retrofit2.Response;
 public class CartFragment extends Fragment {
 
     private List<CartProduct> cartProductList;
-    private float total;
+    private double total;
     private View view;
     private boolean firstView;
 
@@ -147,7 +147,7 @@ public class CartFragment extends Fragment {
                     cartProduct.setAmount(entry.getValue());
                     cartProductList.add(cartProduct);
 
-                    total += (float) (cartProduct.getPrice() * cartProduct.getAmount());
+                    total += cartProduct.getPrice() * cartProduct.getAmount();
                     InitializeProductsRecyclerView();
                     UpdateCheckoutView();
                 }
@@ -205,6 +205,6 @@ public class CartFragment extends Fragment {
 
     private void UpdateCheckoutView() {
         TextView totalPriceText = (TextView) view.findViewById(R.id.totalPrice);
-        totalPriceText.setText(String.format("%1$.0f VND", total));
+        totalPriceText.setText(String.format("%1$,.0f VND", total));
     }
 }
