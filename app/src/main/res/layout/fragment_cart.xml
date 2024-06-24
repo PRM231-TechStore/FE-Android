@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.amar.library.ui.StickyScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.flexbox.FlexboxLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:stickyFooter="@+id/checkoutButton">
+    android:layout_height="match_parent">
         <com.google.android.flexbox.FlexboxLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:flexDirection="column">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:flexDirection="column">
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/cartRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center|bottom"
-            android:layout_margin="20dp">
+            android:layout_margin="20dp"
+            app:layout_flexBasisPercent="80%">
         </androidx.recyclerview.widget.RecyclerView>
         <com.google.android.flexbox.FlexboxLayout
             android:id="@+id/checkoutButton"
@@ -33,6 +33,7 @@
                                 android:textStyle="bold"
                                 />
                             <TextView
+                                android:id="@+id/totalPrice"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="$69.420"
@@ -41,4 +42,4 @@
                                 />
         </com.google.android.flexbox.FlexboxLayout>
         </com.google.android.flexbox.FlexboxLayout>
-</com.amar.library.ui.StickyScrollView>
+</com.google.android.flexbox.FlexboxLayout>
