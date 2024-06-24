@@ -9,14 +9,10 @@
                     <stroke android:width="1sp" android:color="@color/dark_blue"/>
                     <padding android:right="12dp"
                         android:left="12dp"/>
-                    <corners android:bottomRightRadius="4dp" />
+                    <corners android:bottomLeftRadius="10dp" />
                 </shape>
 
             </item>
-
-            <item
-                android:drawable="@drawable/ic_keyboard_arrow_up"
-                android:gravity="end"/>
 
         </layer-list>
 

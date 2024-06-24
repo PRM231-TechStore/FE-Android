@@ -27,11 +27,12 @@ public class MainActivity extends AppCompatActivity {
     private SearchView searchView;
     private MenuItem searchMenuItem;
     private MainActivityViewModel mainActivityViewModel;
+    private ProductListFragment productListFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         try {
             super.onCreate(savedInstanceState);
-            InitializeChildComponents();
+            InitializeClassVariables();
             SetupActionBar();
             SetupBottomNavBar();
 
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    private void InitializeChildComponents(){
+    private void InitializeClassVariables(){
         activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(activityMainBinding.getRoot());
         FragmentUtils.replace(R.id.mainFrameLayout, new ProductListFragment(), getSupportFragmentManager());
@@ -97,24 +98,31 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
-                LoadProductsListBySearchKeyword(null);
-                return false;
-            }
+        searchView.setOnCloseListener(() -> {
+            ResetSearch();
+            return false;
         });
     }
 
     private void LoadProductsListBySearchKeyword(String keyword) {
         try {
-            // Pass the keyword to the already running fragment in this activity
-            ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentById(R.id.mainFrameLayout);
-            if (fragment != null) {
+            productListFragment = (ProductListFragment) getSupportFragmentManager().findFragmentById(R.id.mainFrameLayout);
+            if (productListFragment != null) {
                 mainActivityViewModel.getSearchTerm().setValue(keyword);
-                fragment.GetProductsFromAPI();
+                productListFragment.GetProductsFromAPI();
             }
             searchView.clearFocus(); //prevents the API from being called twice.
+        } catch (Exception e) {
+            e.getMessage();
+        }
+    }
+    private void ResetSearch(){
+        try {
+            productListFragment = (ProductListFragment) getSupportFragmentManager().findFragmentById(R.id.mainFrameLayout);
+            if (productListFragment != null) {
+                mainActivityViewModel.ClearAllSearchCategories();
+                productListFragment.GetProductsFromAPI();
+            }
         } catch (Exception e) {
             e.getMessage();
         }

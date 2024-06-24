@@ -95,6 +95,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                 if (bitmap != null) {
                     new Handler(Looper.getMainLooper()).post(() -> {
                         // Set the Bitmap to the ImageView on the main thread
+
                         this.productImageView.setImageBitmap(bitmap);
                     });
                 }
