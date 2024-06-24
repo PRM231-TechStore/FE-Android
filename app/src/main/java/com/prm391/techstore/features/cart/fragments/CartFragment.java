@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.prm391.techstore.R;
 import com.prm391.techstore.features.main.activities.MainActivityViewModel;
@@ -48,6 +49,7 @@ import retrofit2.Response;
 public class CartFragment extends Fragment {
 
     private List<CartProduct> cartProductList;
+    private float total;
     private View view;
     private boolean firstView;
 
@@ -68,6 +70,7 @@ public class CartFragment extends Fragment {
             InitializeClassVariables();
             GetProductsFromAPI();
             InitializeProductsRecyclerView();
+            UpdateCheckoutView();
         } catch (Exception e) {
             e.getMessage();
         }
@@ -87,8 +90,10 @@ public class CartFragment extends Fragment {
             super.onResume();
             if (!firstView) {
                 cartProductList = new ArrayList<CartProduct>();
+                total = 0;
                 GetProductsFromAPI();
                 InitializeProductsRecyclerView();
+                UpdateCheckoutView();
             }
             firstView = false;
         } catch (Exception e) {
@@ -142,7 +147,9 @@ public class CartFragment extends Fragment {
                     cartProduct.setAmount(entry.getValue());
                     cartProductList.add(cartProduct);
 
+                    total += (float) (cartProduct.getPrice() * cartProduct.getAmount());
                     InitializeProductsRecyclerView();
+                    UpdateCheckoutView();
                 }
 
                 @Override
@@ -157,6 +164,7 @@ public class CartFragment extends Fragment {
 
     private void InitializeClassVariables() {
         cartProductList = new ArrayList<CartProduct>();
+        total = 0;
         techStoreAPIInterface = TechStoreRetrofitClient.getClient().create(TechStoreAPIInterface.class);
         InitializeProductsRecyclerView();
     }
@@ -191,8 +199,12 @@ public class CartFragment extends Fragment {
         cartRecyclerView = view.findViewById(R.id.cartRecyclerView);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity().getApplicationContext(),1);
         cartRecyclerView.setLayoutManager(gridLayoutManager);
-        cartAdapter = new CartAdapter(getActivity().getApplicationContext(), cartProductList);
+        cartAdapter = new CartAdapter(getActivity().getApplicationContext(), cartProductList, (TextView) view.findViewById(R.id.totalPrice), total);
         cartRecyclerView.setAdapter(cartAdapter);
     }
 
+    private void UpdateCheckoutView() {
+        TextView totalPriceText = (TextView) view.findViewById(R.id.totalPrice);
+        totalPriceText.setText(String.format("%1$.0f VND", total));
+    }
 }
