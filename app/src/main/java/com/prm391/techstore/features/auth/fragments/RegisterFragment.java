@@ -1,5 +1,6 @@
 package com.prm391.techstore.features.auth.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,16 +10,31 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.prm391.techstore.R;
+import com.prm391.techstore.clients.TechStoreAPIInterface;
+import com.prm391.techstore.features.main.activities.MainActivity;
+import com.prm391.techstore.models.LoginResponse;
 import com.prm391.techstore.utils.FragmentUtils;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class RegisterFragment extends Fragment {
 
     private TextView loginTextView;
+
+    private Button registerButton
     private View view;
+    private EditText username;
+    private EditText password;
+    private EditText email;
+    private TechStoreAPIInterface techStoreAPIInterface;
     public RegisterFragment(){}
     @Nullable
     @Override
@@ -27,6 +43,7 @@ public class RegisterFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         view =  inflater.inflate(R.layout.fragment_register, container, false);
         SetupToSignupFragmentButton();
+        SetupRegisterButton();
         return view;
     }
     private void SetupToSignupFragmentButton(){
@@ -36,6 +53,39 @@ public class RegisterFragment extends Fragment {
             public void onClick(View v) {
                 // Handle the click event
                 FragmentUtils.replace(R.id.authFrameLayout,new LoginFragment(),getParentFragmentManager());
+            }
+        });
+    }
+
+    private void  SetupRegisterButton(){
+        registerButton = view.findViewById(R.id.registerButton);
+
+        username = (EditText)view.findViewById(R.id.username);
+        password = (EditText)view.findViewById(R.id.password);
+        email = (EditText) view.findViewById(R.id.email);
+
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try{
+                    Call call = techStoreAPIInterface.Register(username.getText().toString(), password.getText().toString(),email.getText().toString());
+
+                    call.enqueue(new Callback<LoginResponse>() {
+                        @Override
+                        public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                            //handle success
+                            //store data
+                            FragmentUtils.replace(R.id.authFrameLayout,new LoginFragment(),getParentFragmentManager());
+                        }
+
+                        @Override
+                        public void onFailure(Call<LoginResponse> call, Throwable t) {
+                            //handle error
+                        }
+                    });
+                }catch (Exception e){
+                    System.out.println("Unexcepted Exception");
+                }
             }
         });
     }

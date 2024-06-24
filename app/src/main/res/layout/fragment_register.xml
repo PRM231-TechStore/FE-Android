@@ -19,7 +19,7 @@
         android:textSize="40dp"></TextView>
 
     <EditText
-        android:id="@+id/firstname"
+        android:id="@+id/username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -27,12 +27,12 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="24dp"
         android:ems="10"
-        android:hint="First Name"
+        android:hint="Username"
         android:inputType="textPersonName"
         android:selectAllOnFocus="true" />
 
     <EditText
-        android:id="@+id/lastname"
+        android:id="@+id/password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -40,7 +40,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="10dp"
         android:ems="10"
-        android:hint="Last name"
+        android:hint="Password"
         android:inputType="textPersonName"
         android:selectAllOnFocus="true" />
 
@@ -57,33 +57,9 @@
         android:inputType="textEmailAddress"
         android:selectAllOnFocus="true" />
 
-    <EditText
-        android:id="@+id/phone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="10dp"
-        android:ems="10"
-        android:hint="Mobile Phone"
-        android:inputType="phone|number"
-        android:selectAllOnFocus="true" />
-
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/editText1"
-        android:layout_alignStart="@+id/editText1"
-        android:layout_alignLeft="@+id/editText1"
-        android:layout_marginTop="10dp"
-        android:ems="10"
-        android:hint="Password"
-        android:inputType="textPassword" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/registerButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
