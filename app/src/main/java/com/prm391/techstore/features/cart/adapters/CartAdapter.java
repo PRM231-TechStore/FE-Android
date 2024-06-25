@@ -21,6 +21,7 @@ import com.prm391.techstore.features.product_details.activities.ProductDetailsAc
 import com.prm391.techstore.models.CartProduct;
 import com.prm391.techstore.models.Product;
 import com.prm391.techstore.utils.ImageUtils;
+import com.prm391.techstore.utils.StorageUtils;
 import com.travijuu.numberpicker.library.NumberPicker;
 
 import java.io.BufferedReader;
@@ -113,47 +114,19 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             removeText.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    int itemAmount = 0;
+                    itemAmount = StorageUtils.GetFromStorage("itemAmount", itemAmount, new TypeToken<Integer>(){}.getType(), context);
                     int position = getAdapterPosition();
                     CartProduct product = products.get(position);
-                    String contents = null;
                     Map<String, Integer> productAmount = new HashMap<>();
-                    FileInputStream fis = null;
-                    try {
-                        fis = context.openFileInput("cart");
-                        InputStreamReader inputStreamReader =
-                                new InputStreamReader(fis, StandardCharsets.UTF_8);
-                        StringBuilder stringBuilder = new StringBuilder();
-                        try (BufferedReader reader = new BufferedReader(inputStreamReader)) {
-                            String line = reader.readLine();
-                            while (line != null) {
-                                stringBuilder.append(line).append('\n');
-                                line = reader.readLine();
-                            }
-                        } catch (IOException e) {
-                            // Error occurred when opening raw file for reading.
-                        } finally {
-                            contents = stringBuilder.toString();
-                        }
-
-                        Gson gson = new Gson();
-                        Type type = new TypeToken<Map<String, Integer>>(){}.getType();
-                        if (!contents.isEmpty()) {
-                            productAmount = gson.fromJson(contents, type);
-                        }
-                    } catch (FileNotFoundException e) {
-
-                    }
+                    productAmount = StorageUtils.GetFromStorage("cart", productAmount, new TypeToken<Map<String, Integer>>(){}.getType(), context);
                     productAmount.remove(product.getId());
                     products.remove(product);
+                    itemAmount -= product.getAmount();
                     total -= product.getPrice() * product.getAmount();
                     priceView.setText(String.format("%1$,.0f VND", total));
-                    try (FileOutputStream fos = context.openFileOutput("cart", Context.MODE_PRIVATE)) {
-                        Gson gson = new Gson();
-                        String json = gson.toJson(productAmount);
-                        fos.write(json.getBytes());
-                    } catch (Exception ignored) {
-
-                    }
+                    StorageUtils.SaveToStorage("cart", context, productAmount);
+                    StorageUtils.SaveToStorage("itemAmount", context, itemAmount);
                     adapter.notifyItemRemoved(position);
                 }
             });
