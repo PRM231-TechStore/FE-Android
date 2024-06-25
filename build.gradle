@@ -2,6 +2,7 @@
 plugins {
 alias(libs.plugins.android.application) apply false
     id 'com.diffplug.spotless' version '6.19.0' apply false
+    alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin) apply false
 }
 
 subprojects {
@@ -12,7 +13,12 @@ subprojects {
             targetExclude("$buildDir/**/*.kt")
             ktlint()
         }
-
+        java {
+            importOrder()
+            removeUnusedImports()
+            googleJavaFormat().aosp().reflowLongStrings()
+            formatAnnotations()
+        }
         groovyGradle {
             target '*.gradle'
             greclipse()
