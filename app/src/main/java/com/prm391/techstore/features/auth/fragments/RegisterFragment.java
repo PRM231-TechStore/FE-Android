@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,7 @@ public class RegisterFragment extends Fragment {
 
     private TextView loginTextView;
 
-    private Button registerButton
+    private Button registerButton;
     private View view;
     private EditText username;
     private EditText password;
@@ -68,23 +69,26 @@ public class RegisterFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 try{
-                    Call call = techStoreAPIInterface.Register(username.getText().toString(), password.getText().toString(),email.getText().toString());
+                    Log.i("API", "onClick: Im in");
+                    Call call = techStoreAPIInterface.Register();
 
                     call.enqueue(new Callback<LoginResponse>() {
                         @Override
                         public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                             //handle success
                             //store data
+                            Log.i("API", "onClick: done and success");
                             FragmentUtils.replace(R.id.authFrameLayout,new LoginFragment(),getParentFragmentManager());
                         }
 
                         @Override
                         public void onFailure(Call<LoginResponse> call, Throwable t) {
                             //handle error
+                            Log.i("API", "onClick: false: %s",t);
                         }
                     });
                 }catch (Exception e){
-                    System.out.println("Unexcepted Exception");
+                    System.out.println("Unexcept Exception");
                 }
             }
         });

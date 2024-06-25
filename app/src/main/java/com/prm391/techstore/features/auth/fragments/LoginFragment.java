@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.prm391.techstore.clients.TechStoreRetrofitClient;
+import com.prm391.techstore.models.LoginPayLoad;
+import com.prm391.techstore.models.LoginRequestBody;
 import com.prm391.techstore.models.LoginResponse;
 import com.prm391.techstore.R;
 import com.prm391.techstore.features.main.activities.MainActivity;
@@ -48,9 +52,14 @@ public class LoginFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_login, container, false);
         activity = this.getActivity();
+        InitializeClassVariables();
         SetupToSignupFragmentButton();
         SetupLoginButton();
         return view;
+    }
+
+    private void InitializeClassVariables(){
+        techStoreAPIInterface = TechStoreRetrofitClient.getClient().create(TechStoreAPIInterface.class);
     }
 
     private void SetupToSignupFragmentButton() {
@@ -73,14 +82,21 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Handle the click event
+                Log.i("API", "onClick: i'm in");
+
                 try{
-                    Call<LoginResponse> call = techStoreAPIInterface.login(username.getText().toString(), password.getText().toString());
+                    LoginPayLoad payload = new LoginPayLoad(username.getText().toString(),password.getText().toString());
+
+                    LoginRequestBody data = new LoginRequestBody(payload);
+                    Log.i("API",data.toString());
+                    Call<LoginResponse> call = techStoreAPIInterface.login(data);
 
                     call.enqueue(new Callback<LoginResponse>() {
                         @Override
                         public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                             //handle success
                             //store data
+                            Log.i("API", "onClick: done and success");
                             Intent intent = new Intent(activity, MainActivity.class);
                             startActivity(intent);
                         }
@@ -88,10 +104,12 @@ public class LoginFragment extends Fragment {
                         @Override
                         public void onFailure(Call<LoginResponse> call, Throwable t) {
                             //handle error
+                            Log.i("API", "onClick: false: %s",t);
                         }
                     });
                 }catch (Exception e){
-                    System.out.println("Unexcepted Exception");
+
+                    Log.i("API", "onClick: Exception: %s",e);
                 }
             }
         });
