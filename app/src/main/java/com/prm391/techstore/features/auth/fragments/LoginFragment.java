@@ -32,6 +32,8 @@ import retrofit2.Response;
 
 public class LoginFragment extends Fragment {
     private TextView signUpTextView;
+
+    private TextView errorTextView;
     private Button loginButton;
     private View view;
     private Activity activity;
@@ -75,20 +77,21 @@ public class LoginFragment extends Fragment {
 
     private void SetupLoginButton() {
         loginButton = view.findViewById(R.id.loginButton);
+        errorTextView = (TextView)view.findViewById(R.id.errorText);
+
+        errorTextView.setText("");
 
         username = (EditText)view.findViewById(R.id.username);
         password = (EditText)view.findViewById(R.id.password);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle the click event
-                Log.i("API", "onClick: i'm in");
+                // Handle the click even
 
                 try{
                     LoginPayLoad payload = new LoginPayLoad(username.getText().toString(),password.getText().toString());
 
                     LoginRequestBody data = new LoginRequestBody(payload);
-                    Log.i("API",data.toString());
                     Call<LoginResponse> call = techStoreAPIInterface.login(data);
 
                     call.enqueue(new Callback<LoginResponse>() {
@@ -96,7 +99,6 @@ public class LoginFragment extends Fragment {
                         public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                             //handle success
                             //store data
-                            Log.i("API", "onClick: done and success");
                             Intent intent = new Intent(activity, MainActivity.class);
                             startActivity(intent);
                         }
@@ -104,12 +106,14 @@ public class LoginFragment extends Fragment {
                         @Override
                         public void onFailure(Call<LoginResponse> call, Throwable t) {
                             //handle error
-                            Log.i("API", "onClick: false: %s",t);
+                            errorTextView.setText("Username or password is not correct !");
                         }
                     });
-                }catch (Exception e){
-
-                    Log.i("API", "onClick: Exception: %s",e);
+                }catch (NullPointerException e){
+                    errorTextView.setText("Please enter your account !");
+                }
+                catch (Exception e){
+                    errorTextView.setText("Something went wrong ! !");
                 }
             }
         });
