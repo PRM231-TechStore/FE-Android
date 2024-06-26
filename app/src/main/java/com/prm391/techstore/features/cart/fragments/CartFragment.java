@@ -25,6 +25,7 @@ import com.prm391.techstore.models.Product;
 import com.prm391.techstore.models.ProductByIdResponse;
 import com.prm391.techstore.models.ProductListResponse;
 import com.prm391.techstore.utils.JsonUtils;
+import com.prm391.techstore.utils.StorageUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -102,34 +103,8 @@ public class CartFragment extends Fragment {
     }
 
     public void GetProductsFromAPI() throws Exception{
-        String contents = null;
         Map<String, Integer> productAmount = new HashMap<>();
-        FileInputStream fis = null;
-        try {
-            fis = getContext().openFileInput("cart");
-            InputStreamReader inputStreamReader =
-                    new InputStreamReader(fis, StandardCharsets.UTF_8);
-            StringBuilder stringBuilder = new StringBuilder();
-            try (BufferedReader reader = new BufferedReader(inputStreamReader)) {
-                String line = reader.readLine();
-                while (line != null) {
-                    stringBuilder.append(line).append('\n');
-                    line = reader.readLine();
-                }
-            } catch (IOException e) {
-                // Error occurred when opening raw file for reading.
-            } finally {
-                contents = stringBuilder.toString();
-            }
-
-            Gson gson = new Gson();
-            Type type = new TypeToken<Map<String, Integer>>(){}.getType();
-            if (!contents.isEmpty()) {
-                productAmount = gson.fromJson(contents, type);
-            }
-        } catch (FileNotFoundException e) {
-
-        }
+        productAmount = StorageUtils.GetFromStorage("cart", productAmount, new TypeToken<Map<String, Integer>>(){}.getType(), getContext());
 
         for (Map.Entry<String, Integer> entry: productAmount.entrySet()) {
             Call<ProductByIdResponse> call = techStoreAPIInterface.getProductById(entry.getKey());

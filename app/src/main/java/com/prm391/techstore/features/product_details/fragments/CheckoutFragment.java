@@ -21,6 +21,7 @@ import com.prm391.techstore.constants.DialogConstants;
 import com.prm391.techstore.constants.ProductDetailsConstants;
 import com.prm391.techstore.features.product_details.activities.ProductDetailsActivity;
 import com.prm391.techstore.utils.DialogUtils;
+import com.prm391.techstore.utils.StorageUtils;
 import com.travijuu.numberpicker.library.NumberPicker;
 
 import java.io.BufferedReader;
@@ -74,40 +75,13 @@ public class CheckoutFragment extends Fragment {
                     String contents = "";
                     ProductDetailsActivity activity = (ProductDetailsActivity) getActivity();
                     Map<String, Integer> productAmount = new HashMap<>();
-                    FileInputStream fis = null;
-                    try {
-                        fis = getContext().openFileInput("cart");
-                        InputStreamReader inputStreamReader =
-                                new InputStreamReader(fis, StandardCharsets.UTF_8);
-                        StringBuilder stringBuilder = new StringBuilder();
-                        try (BufferedReader reader = new BufferedReader(inputStreamReader)) {
-                            String line = reader.readLine();
-                            while (line != null) {
-                                stringBuilder.append(line).append('\n');
-                                line = reader.readLine();
-                            }
-                        } catch (IOException e) {
-                            // Error occurred when opening raw file for reading.
-                        } finally {
-                            contents = stringBuilder.toString();
-                        }
-
-                        Gson gson = new Gson();
-                        Type type = new TypeToken<Map<String, Integer>>(){}.getType();
-                        if (!contents.isEmpty()) {
-                            productAmount = gson.fromJson(contents, type);
-                        }
-                    } catch (FileNotFoundException e) {
-
-                    }
+                    int itemAmount = 0;
+                    itemAmount = StorageUtils.GetFromStorage("itemAmount", itemAmount, new TypeToken<Integer>(){}.getType(), getContext());
+                    productAmount = StorageUtils.GetFromStorage("cart", productAmount, new TypeToken<Map<String, Integer>>(){}.getType(), getContext());
                     productAmount.put(activity.GetProductIdFromBundles(), quantity);
-                    try (FileOutputStream fos = getContext().openFileOutput("cart", Context.MODE_PRIVATE)) {
-                        Gson gson = new Gson();
-                        String json = gson.toJson(productAmount);
-                        fos.write(json.getBytes());
-                    } catch (Exception ignored) {
-
-                    }
+                    itemAmount += quantity;
+                    StorageUtils.SaveToStorage("cart", getContext(), productAmount);
+                    StorageUtils.SaveToStorage("itemAmount", getContext(), itemAmount);
 
                     ShowAddToCartSuccessfulDialog();
                 }
