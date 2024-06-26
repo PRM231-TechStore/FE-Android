@@ -34,32 +34,37 @@ public class LaptopBrandsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        this.layoutInflater = inflater;
-        view = inflater.inflate(R.layout.fragment_laptop_brands, container, false);
-        InitializeClassVariables();
+        try{
+            // Inflate the layout for this fragment
+            this.layoutInflater = inflater;
+            view = inflater.inflate(R.layout.fragment_laptop_brands, container, false);
+            InitializeClassVariables();
+
+        }catch(Exception e){
+            e.getMessage();
+        }
         return view;
     }
-    private void InitializeClassVariables(){
+    private void InitializeClassVariables() throws Exception{
         laptopBrandsLinearLayout = view.findViewById(R.id.laptopBrandsLinearLayout);
         for (String brand : brands) {
             ImageButton laptopBrandImageButton = BuildLaptopBrandImageButton();
             laptopBrandsLinearLayout.addView(laptopBrandImageButton);
         }
     }
-    private ImageButton BuildLaptopBrandImageButton(){
+    private ImageButton BuildLaptopBrandImageButton() throws Exception{
         ImageButton laptopBrandImageButton =(ImageButton) layoutInflater.inflate(R.layout.laptop_brand_single_item,laptopBrandsLinearLayout,false);
 
-        Executors.newSingleThreadExecutor().execute(() -> {
-            Bitmap bitmap = ImageUtils.getBitmapFromUrl(hpLogoUrl);
-            Bitmap resizedBitmap = ImageUtils.resizeBitmap(bitmap,120,120);
-            if (bitmap != null) {
-                new Handler(Looper.getMainLooper()).post(() -> {
-                    // Set the Bitmap to the ImageView on the main thread
-                    laptopBrandImageButton.setImageBitmap(resizedBitmap);
-                });
-            }
-        });
+//        Executors.newSingleThreadExecutor().execute(() -> {
+//            Bitmap bitmap = ImageUtils.getBitmapFromUrl(hpLogoUrl);
+//            Bitmap resizedBitmap = ImageUtils.resizeBitmap(bitmap,120,120);
+//            if (bitmap != null) {
+//                new Handler(Looper.getMainLooper()).post(() -> {
+//                    // Set the Bitmap to the ImageView on the main thread
+//                    laptopBrandImageButton.setImageBitmap(resizedBitmap);
+//                });
+//            }
+//        });
         laptopBrandImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

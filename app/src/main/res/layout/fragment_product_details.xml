@@ -98,6 +98,28 @@
 
 
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/storeLocationLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:clickable="true"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:src="@drawable/ic_location" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="View store's location"
+                    android:textSize="20dp" />
+
+
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout

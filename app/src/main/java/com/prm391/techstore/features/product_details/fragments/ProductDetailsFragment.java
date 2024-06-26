@@ -23,6 +23,7 @@ import com.prm391.techstore.R;
 import com.prm391.techstore.clients.TechStoreAPIInterface;
 import com.prm391.techstore.clients.TechStoreRetrofitClient;
 import com.prm391.techstore.features.product_details.activities.ProductDetailsActivity;
+import com.prm391.techstore.features.store_location.StoreLocationActivity;
 import com.prm391.techstore.models.Product;
 import com.prm391.techstore.models.ProductByIdResponse;
 import com.prm391.techstore.models.ProductListResponse;
@@ -39,6 +40,7 @@ import retrofit2.Response;
 public class ProductDetailsFragment extends Fragment {
 
     private LinearLayout mobilePhoneLinearLayout;
+    private LinearLayout storeLocationLinearLayout;
     private TechStoreAPIInterface techStoreAPIInterface;
     private ProgressBar productDetailsProgressBar;
     private View view;
@@ -69,6 +71,7 @@ public class ProductDetailsFragment extends Fragment {
                 product = responseBody.product;
                 BindProductToView();
                 InitializeMobilePhoneLinearLayout();
+                InitializeStoreLocationLinearLayout();
                 productDetailsProgressBar.setVisibility(View.GONE);
             }
 
@@ -118,13 +121,26 @@ public class ProductDetailsFragment extends Fragment {
             }
         });
     }
-
-
+    private void InitializeStoreLocationLinearLayout(){
+        storeLocationLinearLayout = view.findViewById(R.id.storeLocationLinearLayout);
+        storeLocationLinearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SwitchToStoreLocationActivity();
+            }
+        });
+    }
 
     private void MakePhoneCallToStore(){
         String phone = "+84123456789";
         Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phone, null));
         startActivity(intent);
     }
-
+    private void SwitchToStoreLocationActivity(){
+//        productDetailsProgressBar.setVisibility(View.VISIBLE);
+        Intent intent = new Intent(getActivity(), StoreLocationActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+//        productDetailsProgressBar.setVisibility(View.GONE);
+    }
 }
