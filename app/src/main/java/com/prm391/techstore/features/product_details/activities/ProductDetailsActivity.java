@@ -33,6 +33,10 @@ public class ProductDetailsActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         return extras.getString("productId");
     }
+    public int GetCartProductAmountFromBundles() {
+        Bundle extras = getIntent().getExtras();
+        return extras.getInt("cartAmount");
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

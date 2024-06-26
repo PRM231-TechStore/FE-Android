@@ -29,7 +29,7 @@
         android:textSize="24dp"></TextView>
 
     <EditText
-        android:id="@+id/editText1"
+        android:id="@+id/username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -42,7 +42,7 @@
         android:selectAllOnFocus="true" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/editText1"
@@ -52,6 +52,18 @@
         android:ems="10"
         android:hint="Enter your password"
         android:inputType="textPassword" />
+
+    <TextView
+        android:id="@+id/errorText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:fontFamily=""
+        android:text=""
+        android:layout_marginTop="10dp"
+        android:textColor="@color/red"
+        android:textFontWeight="300"
+        android:textSize="18dp"></TextView>
 
     <Button
         android:id="@+id/loginButton"
