@@ -11,4 +11,5 @@
     <color name="light_blue">#F5FBFF</color>
     <color name="transparent">#00FFFFFF</color>
     <color name="gold">#F5BD02</color>
+    <color name="red">#FF0000</color>
 </resources>

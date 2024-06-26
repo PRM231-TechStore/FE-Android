@@ -1,5 +1,6 @@
 package com.prm391.techstore.clients;
 
+import com.prm391.techstore.models.LoginRequestBody;
 import com.prm391.techstore.models.LoginResponse;
 import com.prm391.techstore.models.ProductByIdResponse;
 import com.prm391.techstore.models.ProductListResponse;
@@ -25,8 +26,8 @@ public interface TechStoreAPIInterface {
     Call<ProductByIdResponse> getProductById(@Path("productId") String productId);
 
     @POST(TechStoreAPIEndpoints.LOGIN)
-    Call<LoginResponse> login(@Body String username, @Body String password);
+    Call<LoginResponse> login(@Body LoginRequestBody data);
 
     @POST(TechStoreAPIEndpoints.REGISTER)
-    Call Register(@Body String username, @Body String password, @Body String email);
+    Call Register();
 }

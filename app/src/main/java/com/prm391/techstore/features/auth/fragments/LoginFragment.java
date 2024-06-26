@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.prm391.techstore.clients.TechStoreRetrofitClient;
+import com.prm391.techstore.models.LoginPayLoad;
+import com.prm391.techstore.models.LoginRequestBody;
 import com.prm391.techstore.models.LoginResponse;
 import com.prm391.techstore.R;
 import com.prm391.techstore.features.main.activities.MainActivity;
@@ -28,6 +32,8 @@ import retrofit2.Response;
 
 public class LoginFragment extends Fragment {
     private TextView signUpTextView;
+
+    private TextView errorTextView;
     private Button loginButton;
     private View view;
     private Activity activity;
@@ -48,9 +54,14 @@ public class LoginFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_login, container, false);
         activity = this.getActivity();
+        InitializeClassVariables();
         SetupToSignupFragmentButton();
         SetupLoginButton();
         return view;
+    }
+
+    private void InitializeClassVariables(){
+        techStoreAPIInterface = TechStoreRetrofitClient.getClient().create(TechStoreAPIInterface.class);
     }
 
     private void SetupToSignupFragmentButton() {
@@ -66,15 +77,22 @@ public class LoginFragment extends Fragment {
 
     private void SetupLoginButton() {
         loginButton = view.findViewById(R.id.loginButton);
+        errorTextView = (TextView)view.findViewById(R.id.errorText);
+
+        errorTextView.setText("");
 
         username = (EditText)view.findViewById(R.id.username);
         password = (EditText)view.findViewById(R.id.password);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle the click event
+                // Handle the click even
+
                 try{
-                    Call<LoginResponse> call = techStoreAPIInterface.login(username.getText().toString(), password.getText().toString());
+                    LoginPayLoad payload = new LoginPayLoad(username.getText().toString(),password.getText().toString());
+
+                    LoginRequestBody data = new LoginRequestBody(payload);
+                    Call<LoginResponse> call = techStoreAPIInterface.login(data);
 
                     call.enqueue(new Callback<LoginResponse>() {
                         @Override
@@ -88,10 +106,14 @@ public class LoginFragment extends Fragment {
                         @Override
                         public void onFailure(Call<LoginResponse> call, Throwable t) {
                             //handle error
+                            errorTextView.setText("Username or password is not correct !");
                         }
                     });
-                }catch (Exception e){
-                    System.out.println("Unexcepted Exception");
+                }catch (NullPointerException e){
+                    errorTextView.setText("Please enter your account !");
+                }
+                catch (Exception e){
+                    errorTextView.setText("Something went wrong ! !");
                 }
             }
         });
