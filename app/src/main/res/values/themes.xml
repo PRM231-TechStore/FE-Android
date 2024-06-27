@@ -16,20 +16,6 @@
 
     </style>
 
-<!--    <style name="DarkBlueSpinnerStyle">-->
-<!--        <item name="android:background">@drawable/bg_filter_by_spinner_up</item>-->
-<!--        <item name="android:textColor">@color/white</item>-->
-<!--    </style>-->
-
-    <!-- Style for Spinner dropdown items -->
-<!--    <style name="DarkBlueSpinnerItemStyle">-->
-<!--        <item name="android:textColor">@color/white</item>-->
-<!--        <item name="android:background">@color/dark_blue</item>-->
-<!--    </style>-->
-<!--    <style name="DialogAnimation">-->
-<!--        <item name="android:windowEnterAnimation">@anim/bottom_sheet_slide_in</item>-->
-<!--        <item name="android:windowExitAnimation">@anim/bottom_sheet_slide_out</item>-->
-<!--    </style>-->
     <style name="BottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
     </style>
@@ -40,8 +26,6 @@
         <item name="android:background">@drawable/price_single_option_bg</item>
         <item name="android:textColor">@color/dark_blue</item>
     </style>
-
-
 
     <style name="App.Slider" parent="@style/Widget.MaterialComponents.Slider">
         <item name="labelStyle">@style/App.Tooltip</item>

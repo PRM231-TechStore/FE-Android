@@ -89,13 +89,13 @@ public class CheckoutFragment extends Fragment {
         });
     }
     private void ShowInvalidQuantityDialog(){
-        AlertDialog invalidQuantityDialog = DialogUtils.getBasicDialog(view.getContext(),
+        AlertDialog invalidQuantityDialog = DialogUtils.getOkDialog(view.getContext(),
                 DialogConstants.WARNING_DIALOG_TITLE,
                 ProductDetailsConstants.INVALID_QUANTITY_MESSAGE);
         invalidQuantityDialog.show();
     }
     private void ShowAddToCartSuccessfulDialog(){
-        AlertDialog invalidQuantityDialog = DialogUtils.getBasicDialog(view.getContext(),
+        AlertDialog invalidQuantityDialog = DialogUtils.getOkDialog(view.getContext(),
                 DialogConstants.INFO_DIALOG_TITLE,
                 ProductDetailsConstants.ADD_TO_CART_SUCCESSFULLY);
         invalidQuantityDialog.show();
