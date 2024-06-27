@@ -37,7 +37,7 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
     <style name="PriceSingleOptionButtonStyle" parent="Widget.AppCompat.Button">
-        <item name="android:background">@drawable/single_option_bg</item>
+        <item name="android:background">@drawable/price_single_option_bg</item>
         <item name="android:textColor">@color/dark_blue</item>
     </style>
 

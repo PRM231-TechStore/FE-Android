@@ -7,7 +7,10 @@
     <item
         android:id="@+id/cartNavMenu"
         android:title="Cart"
-        android:icon="@drawable/ic_cart"
+        android:icon="@drawable/ic_cart"></item>
+    <item
+        android:id="@+id/userNavMenu"
+        android:title="My Profile"
+        android:icon="@drawable/ic_user"
         ></item>
-
 </menu>
