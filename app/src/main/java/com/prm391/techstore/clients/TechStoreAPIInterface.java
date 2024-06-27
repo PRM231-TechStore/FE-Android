@@ -4,6 +4,7 @@ import com.prm391.techstore.models.LoginRequestBody;
 import com.prm391.techstore.models.LoginResponse;
 import com.prm391.techstore.models.ProductByIdResponse;
 import com.prm391.techstore.models.ProductListResponse;
+import com.prm391.techstore.models.RegisterBody;
 import com.prm391.techstore.models.UserDetailsResponse;
 
 import retrofit2.Call;
@@ -31,7 +32,7 @@ public interface TechStoreAPIInterface {
     Call<LoginResponse> login(@Body LoginRequestBody data);
 
     @POST(TechStoreAPIEndpoints.REGISTER)
-    Call Register();
+    Call Register(@Body RegisterBody data);
 
     @GET(TechStoreAPIEndpoints.GET_USER_DETAILS)
     Call<UserDetailsResponse> getUserDetailsById(@Header("Authorization") String token, @Path("userId") String userId);

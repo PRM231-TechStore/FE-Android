@@ -45,6 +45,19 @@
         android:selectAllOnFocus="true" />
 
     <EditText
+        android:id="@+id/confirmPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="Confirm Password"
+        android:inputType="textPersonName"
+        android:selectAllOnFocus="true" />
+
+    <EditText
         android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -57,6 +70,18 @@
         android:inputType="textEmailAddress"
         android:selectAllOnFocus="true" />
 
+    <TextView
+        android:id="@+id/errorText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:fontFamily=""
+        android:text=""
+        android:layout_marginTop="10dp"
+        android:textColor="@color/red"
+        android:textFontWeight="300"
+        android:textSize="18dp"></TextView>
+
 
     <Button
         android:id="@+id/registerButton"
@@ -64,7 +89,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:text="Register"
         android:textSize="16sp"
         android:textStyle="normal|bold" />
