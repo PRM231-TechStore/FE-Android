@@ -17,8 +17,11 @@ import android.widget.TextView;
 
 import com.prm391.techstore.R;
 import com.prm391.techstore.clients.TechStoreAPIInterface;
+import com.prm391.techstore.clients.TechStoreRetrofitClient;
 import com.prm391.techstore.features.main.activities.MainActivity;
 import com.prm391.techstore.models.LoginResponse;
+import com.prm391.techstore.models.RegisterBody;
+import com.prm391.techstore.models.RegisterPayload;
 import com.prm391.techstore.utils.FragmentUtils;
 
 import retrofit2.Call;
@@ -29,10 +32,12 @@ import retrofit2.Response;
 public class RegisterFragment extends Fragment {
 
     private TextView loginTextView;
-
+    private TextView errorText;
     private Button registerButton;
     private View view;
     private EditText username;
+
+    private EditText confirmPassword;
     private EditText password;
     private EditText email;
     private TechStoreAPIInterface techStoreAPIInterface;
@@ -44,8 +49,13 @@ public class RegisterFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         view =  inflater.inflate(R.layout.fragment_register, container, false);
         SetupToSignupFragmentButton();
+        InitializeClassVariables();
         SetupRegisterButton();
         return view;
+    }
+
+    private void InitializeClassVariables(){
+        techStoreAPIInterface = TechStoreRetrofitClient.getClient().create(TechStoreAPIInterface.class);
     }
     private void SetupToSignupFragmentButton(){
         loginTextView = view.findViewById(R.id.loginTextView);
@@ -64,13 +74,29 @@ public class RegisterFragment extends Fragment {
         username = (EditText)view.findViewById(R.id.username);
         password = (EditText)view.findViewById(R.id.password);
         email = (EditText) view.findViewById(R.id.email);
+        confirmPassword = (EditText) view.findViewById(R.id.confirmPassword);
+        errorText = (TextView) view.findViewById((R.id.errorText));
+
+        errorText.setText("");
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try{
-                    Log.i("API", "onClick: Im in");
-                    Call call = techStoreAPIInterface.Register();
+
+                    if(username.getText().toString().isEmpty() || password.getText().toString().isEmpty() || confirmPassword.getText().toString().isEmpty() || email.getText().toString().isEmpty()){
+                        errorText.setText("Please enter all field !");
+                        return;
+                    }
+
+                    if(!password.getText().toString().equals(confirmPassword.getText().toString())){
+                        errorText.setText("Passwords do NOT match!");
+                        return;
+                    }
+
+                    RegisterPayload payload = new RegisterPayload(username.getText().toString(),password.getText().toString(),email.getText().toString());
+                    RegisterBody data = new RegisterBody(payload);
+                    Call call = techStoreAPIInterface.Register(data);
 
                     call.enqueue(new Callback<LoginResponse>() {
                         @Override

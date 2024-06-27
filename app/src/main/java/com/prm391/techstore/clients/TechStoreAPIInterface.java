@@ -4,6 +4,7 @@ import com.prm391.techstore.models.LoginRequestBody;
 import com.prm391.techstore.models.LoginResponse;
 import com.prm391.techstore.models.ProductByIdResponse;
 import com.prm391.techstore.models.ProductListResponse;
+import com.prm391.techstore.models.RegisterBody;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -29,5 +30,5 @@ public interface TechStoreAPIInterface {
     Call<LoginResponse> login(@Body LoginRequestBody data);
 
     @POST(TechStoreAPIEndpoints.REGISTER)
-    Call Register();
+    Call Register(@Body RegisterBody data);
 }
