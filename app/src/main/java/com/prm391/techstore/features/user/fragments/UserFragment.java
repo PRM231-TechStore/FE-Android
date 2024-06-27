@@ -15,15 +15,18 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.reflect.TypeToken;
 import com.prm391.techstore.R;
 import com.prm391.techstore.clients.TechStoreAPIInterface;
 import com.prm391.techstore.clients.TechStoreRetrofitClient;
 import com.prm391.techstore.constants.UserFragmentConstants;
 import com.prm391.techstore.features.user.on_click_listeners.ProceedWithLogoutOnClickListener;
+import com.prm391.techstore.models.LoginInfo;
 import com.prm391.techstore.models.ProductListResponse;
 import com.prm391.techstore.models.UserDetailsResponse;
 import com.prm391.techstore.models.UserSingleOption;
 import com.prm391.techstore.utils.DialogUtils;
+import com.prm391.techstore.utils.StorageUtils;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -70,10 +73,12 @@ public class UserFragment extends Fragment {
         InitializeLogoutButton();
     }
     private void GetUserDetailsFromAPI(){
-        /*TODO: Retrieve the UserId and Token from local storage, after successfully logged in */
+        LoginInfo loginInfo = null;
+        loginInfo = StorageUtils.GetFromStorage("user", loginInfo,
+                new TypeToken<LoginInfo>(){}.getType(), getContext());
         Call<UserDetailsResponse> call = techStoreAPIInterface.getUserDetailsById(
-                "PDY5GBORXV744S5XUWCQEX44K6RBEZ3VQ4WFMZVMZ35SEAIV62KA",
-                "f6add7e4-42f4-4742-98fb-ab753ceb404a");
+                loginInfo.getToken(),
+                loginInfo.getUserId());
         call.enqueue(new Callback<UserDetailsResponse>() {
             @Override
             public void onResponse(Call<UserDetailsResponse> call, Response<UserDetailsResponse> response) {
