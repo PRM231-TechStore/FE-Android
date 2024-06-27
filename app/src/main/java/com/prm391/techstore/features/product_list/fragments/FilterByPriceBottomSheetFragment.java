@@ -136,7 +136,7 @@ public class FilterByPriceBottomSheetFragment extends BottomSheetDialogFragment 
         this.dismiss();
     }
     private void ShowInvalidPriceRangesDialog(){
-        AlertDialog invalidQuantityDialog = DialogUtils.getBasicDialog(view.getContext(),
+        AlertDialog invalidQuantityDialog = DialogUtils.getOkDialog(view.getContext(),
                 DialogConstants.WARNING_DIALOG_TITLE,
                 SearchByConstants.INVALID_PRICE_RANGE);
         invalidQuantityDialog.show();

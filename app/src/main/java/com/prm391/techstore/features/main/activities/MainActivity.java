@@ -20,6 +20,7 @@ import com.prm391.techstore.features.cart.fragments.CartFragment;
 import com.prm391.techstore.constants.SearchByConstants;
 import com.prm391.techstore.databinding.ActivityMainBinding;
 import com.prm391.techstore.features.product_list.fragments.ProductListFragment;
+import com.prm391.techstore.features.user.fragments.UserFragment;
 import com.prm391.techstore.utils.FragmentUtils;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private MenuItem searchMenuItem;
     private MainActivityViewModel mainActivityViewModel;
     private ProductListFragment productListFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         try {
@@ -47,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         InitializeSearch(menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -55,12 +58,14 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    private void InitializeClassVariables(){
+
+    private void InitializeClassVariables() {
         activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(activityMainBinding.getRoot());
         FragmentUtils.replace(R.id.mainFrameLayout, new ProductListFragment(), getSupportFragmentManager());
         mainActivityViewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
     }
+
     private void InitializeSearch(Menu menu) {
         InitializeSearchMenu(menu);
         InitializeSearchView(menu);
@@ -116,7 +121,8 @@ public class MainActivity extends AppCompatActivity {
             e.getMessage();
         }
     }
-    private void ResetSearch(){
+
+    private void ResetSearch() {
         try {
             productListFragment = (ProductListFragment) getSupportFragmentManager().findFragmentById(R.id.mainFrameLayout);
             if (productListFragment != null) {
@@ -127,7 +133,6 @@ public class MainActivity extends AppCompatActivity {
             e.getMessage();
         }
     }
-
 
 
     private void SetupActionBar() {
@@ -151,6 +156,10 @@ public class MainActivity extends AppCompatActivity {
                             ActionBar actionBar = getSupportActionBar();
                             actionBar.setTitle(MainActivityConstants.CART_TITLE);
                             fragment = new CartFragment();
+                        } else if (navMenuItemId == R.id.userNavMenu) {
+                            ActionBar actionBar = getSupportActionBar();
+                            actionBar.setTitle(MainActivityConstants.USER_PROFILE_TITLE);
+                            fragment = new UserFragment();
                         }
                         FragmentUtils.replace(R.id.mainFrameLayout, fragment, getSupportFragmentManager());
                         return true;
