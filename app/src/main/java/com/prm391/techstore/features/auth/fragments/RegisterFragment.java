@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.prm391.techstore.R;
 import com.prm391.techstore.clients.TechStoreAPIInterface;
@@ -22,6 +23,7 @@ import com.prm391.techstore.features.main.activities.MainActivity;
 import com.prm391.techstore.models.LoginResponse;
 import com.prm391.techstore.models.RegisterBody;
 import com.prm391.techstore.models.RegisterPayload;
+import com.prm391.techstore.utils.EmailUtils;
 import com.prm391.techstore.utils.FragmentUtils;
 
 import retrofit2.Call;
@@ -83,7 +85,7 @@ public class RegisterFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 try{
-
+                    Log.i("API", "i'm in");
                     if(username.getText().toString().isEmpty() || password.getText().toString().isEmpty() || confirmPassword.getText().toString().isEmpty() || email.getText().toString().isEmpty()){
                         errorText.setText("Please enter all field !");
                         return;
@@ -94,27 +96,37 @@ public class RegisterFragment extends Fragment {
                         return;
                     }
 
+                    if(!EmailUtils.isValidEmailAddress(email.getText().toString())){
+                        errorText.setText("Email is not valid !!");
+                        return;
+                    }
+                    Log.i("API", "pass validation");
                     RegisterPayload payload = new RegisterPayload(username.getText().toString(),password.getText().toString(),email.getText().toString());
                     RegisterBody data = new RegisterBody(payload);
-                    Call call = techStoreAPIInterface.Register(data);
+                    Call<Void> call = techStoreAPIInterface.Register(data);
 
-                    call.enqueue(new Callback<LoginResponse>() {
+                    call.enqueue(new Callback<Void>() {
                         @Override
-                        public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                            //handle success
-                            //store data
-                            Log.i("API", "onClick: done and success");
-                            FragmentUtils.replace(R.id.authFrameLayout,new LoginFragment(),getParentFragmentManager());
+                        public void onResponse(Call<Void> call, Response<Void> response) {
+                            if(response.code() != 200){
+                                errorText.setText("Some thing went wrong !");
+                                return;
+                            }else {
+                                Toast.makeText(getContext(), "Register successfully", Toast.LENGTH_SHORT).show();
+                                FragmentUtils.replace(R.id.authFrameLayout, new LoginFragment(), getParentFragmentManager());
+                            }
                         }
 
                         @Override
-                        public void onFailure(Call<LoginResponse> call, Throwable t) {
+                        public void onFailure(Call<Void> call, Throwable t) {
                             //handle error
                             Log.i("API", "onClick: false: %s",t);
+                            errorText.setText("Some thing went wrong !");
                         }
                     });
                 }catch (Exception e){
-                    System.out.println("Unexcept Exception");
+                    Log.i("API", "%s", e);
+                    errorText.setText("Some thing went wrong !!");
                 }
             }
         });

@@ -99,10 +99,17 @@ public class LoginFragment extends Fragment {
                     call.enqueue(new Callback<LoginResponse>() {
                         @Override
                         public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                            LoginInfo user = new LoginInfo(response.body().loginInfo.getUserId(),response.body().loginInfo.getToken(),response.body().loginInfo.getExpiryDate());
-                            StorageUtils.SaveToStorage("user", getContext(), user);
-                            Intent intent = new Intent(activity, MainActivity.class);
-                            startActivity(intent);
+//
+
+                            if(response.code() != 200){
+                                errorTextView.setText("Username or password is not correct !");
+
+                            }else {
+                                LoginInfo user = new LoginInfo(response.body().loginInfo.getUserId(),response.body().loginInfo.getToken(),response.body().loginInfo.getExpiryDate());
+                                StorageUtils.SaveToStorage("user", getContext(), user);
+                                Intent intent = new Intent(activity, MainActivity.class);
+                                startActivity(intent);
+                            }
                         }
 
                         @Override

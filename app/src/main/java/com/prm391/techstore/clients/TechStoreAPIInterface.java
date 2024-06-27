@@ -30,5 +30,5 @@ public interface TechStoreAPIInterface {
     Call<LoginResponse> login(@Body LoginRequestBody data);
 
     @POST(TechStoreAPIEndpoints.REGISTER)
-    Call Register(@Body RegisterBody data);
+    Call<Void> Register(@Body RegisterBody data);
 }
