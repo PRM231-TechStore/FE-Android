@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.prm391.techstore.clients.TechStoreRetrofitClient;
+import com.prm391.techstore.models.LoginInfo;
 import com.prm391.techstore.models.LoginPayLoad;
 import com.prm391.techstore.models.LoginRequestBody;
 import com.prm391.techstore.models.LoginResponse;
@@ -24,6 +25,7 @@ import com.prm391.techstore.R;
 import com.prm391.techstore.features.main.activities.MainActivity;
 import com.prm391.techstore.utils.FragmentUtils;
 import com.prm391.techstore.clients.TechStoreAPIInterface;
+import com.prm391.techstore.utils.StorageUtils;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -97,8 +99,8 @@ public class LoginFragment extends Fragment {
                     call.enqueue(new Callback<LoginResponse>() {
                         @Override
                         public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                            //handle success
-                            //store data
+                            LoginInfo user = new LoginInfo(response.body().loginInfo.getUserId(),response.body().loginInfo.getToken(),response.body().loginInfo.getExpiryDate());
+                            StorageUtils.SaveToStorage("user", getContext(), user);
                             Intent intent = new Intent(activity, MainActivity.class);
                             startActivity(intent);
                         }
