@@ -8,5 +8,5 @@ public class LoginResponse {
     @SerializedName("resultMessage")
     public String resultMessage;
     @SerializedName("data")
-    public LoginInfo loginInfo;
+    public LoginInfo  loginInfo;
 }

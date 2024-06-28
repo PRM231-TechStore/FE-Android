@@ -34,7 +34,7 @@ public interface TechStoreAPIInterface {
     Call<LoginResponse> login(@Body LoginRequestBody data);
 
     @POST(TechStoreAPIEndpoints.REGISTER)
-    Call Register(@Body RegisterBody data);
+    Call<Void> Register(@Body RegisterBody data);
 
     @GET(TechStoreAPIEndpoints.GET_USER_DETAILS)
     Call<UserDetailsResponse> getUserDetailsById(@Header("Authorization") String token, @Path("userId") String userId);
