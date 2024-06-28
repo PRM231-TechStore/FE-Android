@@ -116,6 +116,4 @@ public class ProductListFragment extends Fragment {
         productListAdapter = new ProductListAdapter(getActivity().getApplicationContext(), productList);
         productsRecyclerView.setAdapter(productListAdapter);
     }
-
-
 }

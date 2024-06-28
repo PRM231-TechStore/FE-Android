@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.slider.LabelFormatter;
@@ -22,6 +23,7 @@ import com.prm391.techstore.R;
 import com.prm391.techstore.constants.DialogConstants;
 import com.prm391.techstore.constants.ProductDetailsConstants;
 import com.prm391.techstore.constants.SearchByConstants;
+import com.prm391.techstore.features.main.activities.MainActivityViewModel;
 import com.prm391.techstore.models.Category;
 import com.prm391.techstore.utils.CurrencyUtils;
 import com.prm391.techstore.utils.DialogUtils;
@@ -36,7 +38,9 @@ public class FilterByPriceBottomSheetFragment extends BottomSheetDialogFragment 
     private LinearLayout priceItemsGridLayout;
     private RangeSlider priceRangeSlider;
     private Button beginFilterByPriceButton;
+    private ProductListFragment productListFragment;
     private List<Float> customPriceValues;
+    private MainActivityViewModel mainActivityViewModel;
 
     public FilterByPriceBottomSheetFragment() {
     }
@@ -58,9 +62,16 @@ public class FilterByPriceBottomSheetFragment extends BottomSheetDialogFragment 
     }
 
     private void InitializeClassVariables() {
-        InitializePriceItemsGridLayout();
-        InitializePriceRangeSlider();
-        InitializeBeginFilterByPriceButton();
+        try {
+            InitializePriceItemsGridLayout();
+            InitializePriceRangeSlider();
+            InitializeBeginFilterBySliderButton();
+            productListFragment = (ProductListFragment) this.getParentFragmentManager()
+                    .findFragmentById(R.id.mainFrameLayout);
+            mainActivityViewModel = new ViewModelProvider(requireActivity()).get(MainActivityViewModel.class);
+        } catch (Exception e) {
+            e.getMessage();
+        }
     }
 
     private void InitializePriceItemsGridLayout() {
@@ -96,15 +107,17 @@ public class FilterByPriceBottomSheetFragment extends BottomSheetDialogFragment 
             }
         });
     }
-    private void InitializeBeginFilterByPriceButton(){
+
+    private void InitializeBeginFilterBySliderButton() {
         beginFilterByPriceButton = view.findViewById(R.id.beginFilterByPriceButton);
         beginFilterByPriceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ApplyPriceFilterWithinRange();
+                ApplyPriceFilterBySlider();
             }
         });
     }
+
 
     private Button BuildPriceCategoryButton(Category category) {
         Button priceCategoryButton = (Button) layoutInflater.inflate(
@@ -114,28 +127,44 @@ public class FilterByPriceBottomSheetFragment extends BottomSheetDialogFragment 
         priceCategoryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ApplyPriceFilter(category);
+                ApplyPriceFilterByOption(category);
             }
         });
         return priceCategoryButton;
     }
 
-    private void ApplyPriceFilter(Category category) {
-        float[] priceRange = (float[]) category.getValue();
-        Log.i("Beginning price:",Float.toString(priceRange[0]));
-        Log.i("Ending price:",Float.toString(priceRange[1]));
-        this.dismiss();
-    }
-    private void ApplyPriceFilterWithinRange(){
-        //TODO: Call API to fetch products between price ranges using the customPriceValues list.
-        if(customPriceValues.size()==0){
-            ShowInvalidPriceRangesDialog();
-            return;
+    private void ApplyPriceFilterByOption(Category category) {
+        try {
+            float[] priceRange = (float[]) category.getValue();
+            int minPriceInt = (int)priceRange[0];
+            int maxPriceInt = (int)priceRange[1];
+            mainActivityViewModel.getMinPrice().setValue(Integer.toString(minPriceInt));
+            mainActivityViewModel.getMaxPrice().setValue(Integer.toString(maxPriceInt));
+            productListFragment.GetProductsFromAPI();
+            this.dismiss();
+        } catch (Exception e) {
+            e.getMessage();
         }
-        Log.i("Current minimum and maximum values:",customPriceValues.toString());
-        this.dismiss();
     }
-    private void ShowInvalidPriceRangesDialog(){
+
+    private void ApplyPriceFilterBySlider() {
+        try {
+            if (customPriceValues.size() == 0) {
+                ShowInvalidPriceRangesDialog();
+                return;
+            }
+            int minPriceInt = Math.round(customPriceValues.get(0));
+            int maxPriceInt = Math.round(customPriceValues.get(1));
+            mainActivityViewModel.getMinPrice().setValue(Integer.toString(minPriceInt));
+            mainActivityViewModel.getMaxPrice().setValue(Integer.toString(maxPriceInt));
+            productListFragment.GetProductsFromAPI();
+            this.dismiss();
+        }catch(Exception e){
+            e.getMessage();
+        }
+    }
+
+    private void ShowInvalidPriceRangesDialog() {
         AlertDialog invalidQuantityDialog = DialogUtils.getOkDialog(view.getContext(),
                 DialogConstants.WARNING_DIALOG_TITLE,
                 SearchByConstants.INVALID_PRICE_RANGE);

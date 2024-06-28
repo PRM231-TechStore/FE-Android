@@ -3,7 +3,6 @@ package com.prm391.techstore.features.user.fragments;
 import android.app.AlertDialog;
 import android.os.Bundle;
 
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -13,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.gson.reflect.TypeToken;
@@ -20,9 +20,8 @@ import com.prm391.techstore.R;
 import com.prm391.techstore.clients.TechStoreAPIInterface;
 import com.prm391.techstore.clients.TechStoreRetrofitClient;
 import com.prm391.techstore.constants.UserFragmentConstants;
-import com.prm391.techstore.features.user.on_click_listeners.ProceedWithLogoutOnClickListener;
+import com.prm391.techstore.features.user.on_click_listeners.LogoutOnClickListener;
 import com.prm391.techstore.models.LoginInfo;
-import com.prm391.techstore.models.ProductListResponse;
 import com.prm391.techstore.models.UserDetailsResponse;
 import com.prm391.techstore.models.UserSingleOption;
 import com.prm391.techstore.utils.DialogUtils;
@@ -41,6 +40,8 @@ public class UserFragment extends Fragment {
     private LinearLayout userProfileLinearLayout;
     private Button logoutButton;
     private TechStoreAPIInterface techStoreAPIInterface;
+    private UserFragmentConstants userFragmentConstants;
+    private ProgressBar userProgressBar;
 
     public UserFragment() {
         // Required empty public constructor
@@ -62,6 +63,7 @@ public class UserFragment extends Fragment {
         // Inflate the layout for this fragment
         this.layoutInflater = inflater;
         this.view = this.layoutInflater.inflate(R.layout.fragment_user, container, false);
+        userFragmentConstants = new UserFragmentConstants(this);
         InitializeClassVariables();
         GetUserDetailsFromAPI();
         return view;
@@ -69,6 +71,7 @@ public class UserFragment extends Fragment {
 
     private void InitializeClassVariables() {
         techStoreAPIInterface = TechStoreRetrofitClient.getClient().create(TechStoreAPIInterface.class);
+        userProgressBar = view.findViewById(R.id.user_ProgressBar);
         InitializeUserOptionsLinearLayout();
         InitializeLogoutButton();
     }
@@ -84,6 +87,7 @@ public class UserFragment extends Fragment {
             public void onResponse(Call<UserDetailsResponse> call, Response<UserDetailsResponse> response) {
                 UserDetailsResponse responseBody = response.body();
                 InitializeUserProfileLinearLayout(responseBody.getData());
+                userProgressBar.setVisibility(View.GONE);
             }
 
             @Override
@@ -95,17 +99,18 @@ public class UserFragment extends Fragment {
 
     private void InitializeUserOptionsLinearLayout() {
         userOptionsLinearLayout = (LinearLayout) view.findViewById(R.id.userOptionsLinearLayout);
-        for (UserSingleOption userSingleOption : UserFragmentConstants.userSingleOptionList) {
+        for (UserSingleOption userSingleOption : userFragmentConstants.getUserSingleOptionList()) {
             userOptionsLinearLayout.addView(BuildSingleUserOptionLinearLayout(userSingleOption));
         }
+
     }
     private void InitializeLogoutButton(){
         logoutButton = view.findViewById(R.id.userLogoutButton);
         logoutButton.setOnClickListener(v -> {
             AlertDialog dialog = DialogUtils.getOkCancelDialog(getContext(),
-                UserFragmentConstants.WARNING_TITLE,
-                UserFragmentConstants.LOGOUT_PROMPT,
-                new ProceedWithLogoutOnClickListener());
+                    userFragmentConstants.getWARNING_TITLE(),
+                    userFragmentConstants.getLOGOUT_PROMPT(),
+                new LogoutOnClickListener());
             dialog.show();
         });
     }
@@ -120,6 +125,7 @@ public class UserFragment extends Fragment {
         settingName.setText(userSingleOption.getName());
         TextView settingDescription = singleUserOptionLinearLayout.findViewById(R.id.userOptionDescription);
         settingDescription.setText(userSingleOption.getDescription());
+        singleUserOptionLinearLayout.setOnClickListener(userSingleOption.getOnClickListener());
         return singleUserOptionLinearLayout;
 
     }
