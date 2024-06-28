@@ -4,5 +4,6 @@
     android:layout_height="wrap_content"
     style="@style/PriceSingleOptionButtonStyle"
     android:src="@drawable/ic_question_mark"
-    android:layout_margin="5dp">
+    android:layout_margin="5dp"
+    android:padding="5dp">
 </ImageButton>

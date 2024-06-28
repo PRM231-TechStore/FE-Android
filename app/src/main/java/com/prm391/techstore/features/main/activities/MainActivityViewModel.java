@@ -17,6 +17,7 @@ public class MainActivityViewModel extends ViewModel {
     private final MutableLiveData<String> maxPrice = new MutableLiveData<>();
     private final MutableLiveData<String> pageNumber = new MutableLiveData<>();
     private final MutableLiveData<String> pageSize = new MutableLiveData<>();
+    private final MutableLiveData<String> label = new MutableLiveData<>();
     public void ClearAllSearchCategories(){
         searchTerm.setValue(null);
         sortBy.setValue(null);
@@ -25,5 +26,6 @@ public class MainActivityViewModel extends ViewModel {
         maxPrice.setValue(null);
         pageNumber.setValue(null);
         pageSize.setValue(null);
+        label.setValue(null);
     }
 }

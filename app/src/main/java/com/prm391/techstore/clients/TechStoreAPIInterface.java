@@ -1,5 +1,6 @@
 package com.prm391.techstore.clients;
 
+import com.prm391.techstore.models.LaptopBrandsResponse;
 import com.prm391.techstore.models.LoginRequestBody;
 import com.prm391.techstore.models.LoginResponse;
 import com.prm391.techstore.models.ProductByIdResponse;
@@ -23,7 +24,8 @@ public interface TechStoreAPIInterface {
                                           @Query("minPrice") String minPrice,
                                           @Query("maxPrice") String maxPrice,
                                           @Query("pageNumber") String pageNumber,
-                                          @Query("pageSize") String pageSize);
+                                          @Query("pageSize") String pageSize,
+                                          @Query("label") String label);
 
     @GET(TechStoreAPIEndpoints.GET_PRODUCT_BY_ID)
     Call<ProductByIdResponse> getProductById(@Path("productId") String productId);
@@ -37,4 +39,6 @@ public interface TechStoreAPIInterface {
     @GET(TechStoreAPIEndpoints.GET_USER_DETAILS)
     Call<UserDetailsResponse> getUserDetailsById(@Header("Authorization") String token, @Path("userId") String userId);
 
+    @GET(TechStoreAPIEndpoints.GET_LAPTOP_BRANDS)
+    Call<LaptopBrandsResponse> getLaptopBrands(@Query("pageNumber") String pageNumber, @Query("pageSize") String pageSize);
 }

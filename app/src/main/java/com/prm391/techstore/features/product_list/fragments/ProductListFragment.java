@@ -78,7 +78,8 @@ public class ProductListFragment extends Fragment {
                 mainActivityViewModel.getMinPrice().getValue(),
                 mainActivityViewModel.getMaxPrice().getValue(),
                 mainActivityViewModel.getPageNumber().getValue(),
-                mainActivityViewModel.getPageSize().getValue()
+                mainActivityViewModel.getPageSize().getValue(),
+                mainActivityViewModel.getLabel().getValue()
         );
         call.enqueue(new Callback<ProductListResponse>() {
             @Override
@@ -101,6 +102,7 @@ public class ProductListFragment extends Fragment {
         techStoreAPIInterface = TechStoreRetrofitClient.getClient().create(TechStoreAPIInterface.class);
         productListProgressBar = view.findViewById(R.id.productListProgressBar);
         mainActivityViewModel = new ViewModelProvider(requireActivity()).get(MainActivityViewModel.class);
+        mainActivityViewModel.ClearAllSearchCategories();
         InitializeProductsRecyclerView();
     }
     private void InitializeProductsRecyclerView() {

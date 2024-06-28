@@ -18,11 +18,7 @@ import com.prm391.techstore.constants.SearchByConstants;
 import com.prm391.techstore.features.main.activities.MainActivityViewModel;
 import com.prm391.techstore.models.Category;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SortByBottomSheetFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class SortByBottomSheetFragment extends BottomSheetDialogFragment {
 
     private View view;
