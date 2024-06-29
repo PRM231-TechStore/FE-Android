@@ -48,9 +48,10 @@ public class StoreLocationActivity extends AppCompatActivity implements OnMapRea
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng store = new LatLng(10.875256, 106.800539);
+        mMap.addMarker(new MarkerOptions().position(store).title("Tech Store (Community center)"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(store));
+        mMap.moveCamera(CameraUpdateFactory.zoomTo(18.0f));
     }
     private void SetupActionBar() {
         ActionBar actionBar = getSupportActionBar();

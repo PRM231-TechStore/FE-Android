@@ -6,4 +6,11 @@
     android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".features.store_location.StoreLocationActivity" />
+    tools:context=".features.store_location.StoreLocationActivity" >
+        <androidx.fragment.app.FragmentContainerView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/googleMaps"
+        android:name="com.google.android.gms.maps.SupportMapFragment">
+        </androidx.fragment.app.FragmentContainerView>
+</fragment>
