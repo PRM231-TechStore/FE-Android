@@ -142,28 +142,25 @@ public class MainActivity extends AppCompatActivity {
 
     private void SetupBottomNavBar() {
         activityMainBinding.bottomNavigationBar.setOnItemSelectedListener(
-                new NavigationBarView.OnItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        int navMenuItemId = item.getItemId();
-                        Fragment fragment = null;
-                        if (navMenuItemId == R.id.homeNavMenu) {
-                            ActionBar actionBar = getSupportActionBar();
-                            actionBar.setTitle(MainActivityConstants.ALL_PRODUCTS_TITLE);
-                            fragment = new ProductListFragment();
+                item -> {
+                    int navMenuItemId = item.getItemId();
+                    Fragment fragment = null;
+                    if (navMenuItemId == R.id.homeNavMenu) {
+                        ActionBar actionBar = getSupportActionBar();
+                        actionBar.setTitle(MainActivityConstants.ALL_PRODUCTS_TITLE);
+                        fragment = new ProductListFragment();
 
-                        } else if (navMenuItemId == R.id.cartNavMenu) {
-                            ActionBar actionBar = getSupportActionBar();
-                            actionBar.setTitle(MainActivityConstants.CART_TITLE);
-                            fragment = new CartFragment();
-                        } else if (navMenuItemId == R.id.userNavMenu) {
-                            ActionBar actionBar = getSupportActionBar();
-                            actionBar.setTitle(MainActivityConstants.USER_PROFILE_TITLE);
-                            fragment = new UserFragment();
-                        }
-                        FragmentUtils.replace(R.id.mainFrameLayout, fragment, getSupportFragmentManager());
-                        return true;
+                    } else if (navMenuItemId == R.id.cartNavMenu) {
+                        ActionBar actionBar = getSupportActionBar();
+                        actionBar.setTitle(MainActivityConstants.CART_TITLE);
+                        fragment = new CartFragment();
+                    } else if (navMenuItemId == R.id.userNavMenu) {
+                        ActionBar actionBar = getSupportActionBar();
+                        actionBar.setTitle(MainActivityConstants.USER_PROFILE_TITLE);
+                        fragment = new UserFragment();
                     }
+                    FragmentUtils.replace(R.id.mainFrameLayout, fragment, getSupportFragmentManager());
+                    return true;
                 }
 
         );
