@@ -24,6 +24,7 @@ import com.prm391.techstore.models.LoginResponse;
 import com.prm391.techstore.models.RegisterBody;
 import com.prm391.techstore.models.RegisterPayload;
 import com.prm391.techstore.utils.EmailUtils;
+import com.prm391.techstore.utils.ErrorMessageUtils;
 import com.prm391.techstore.utils.FragmentUtils;
 
 import retrofit2.Call;
@@ -108,8 +109,11 @@ public class RegisterFragment extends Fragment {
                     call.enqueue(new Callback<Void>() {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {
-                            if(response.code() != 200){
-                                errorText.setText("Some thing went wrong !");
+                            if(!response.isSuccessful()){
+
+                                String errorMessage = ErrorMessageUtils.getErrorMessage(response);
+
+                                errorText.setText(errorMessage);
                                 return;
                             }else {
                                 Toast.makeText(getContext(), "Register successfully", Toast.LENGTH_SHORT).show();
