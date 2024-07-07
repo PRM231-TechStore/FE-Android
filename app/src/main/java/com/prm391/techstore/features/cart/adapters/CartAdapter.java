@@ -22,6 +22,8 @@ import com.prm391.techstore.models.CartProduct;
 import com.prm391.techstore.models.Product;
 import com.prm391.techstore.utils.ImageUtils;
 import com.prm391.techstore.utils.StorageUtils;
+import com.travijuu.numberpicker.library.Enums.ActionEnum;
+import com.travijuu.numberpicker.library.Interface.ValueChangedListener;
 import com.travijuu.numberpicker.library.NumberPicker;
 
 import java.io.BufferedReader;
@@ -128,6 +130,27 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                     StorageUtils.SaveToStorage("cart", context, productAmount);
                     StorageUtils.SaveToStorage("itemAmount", context, itemAmount);
                     adapter.notifyItemRemoved(position);
+                }
+            });
+            numberPicker.setValueChangedListener(new ValueChangedListener() {
+                @Override
+                public void valueChanged(int value, ActionEnum action) {
+                    int position = getAdapterPosition();
+                    CartProduct product = products.get(position);
+                    int itemAmount = 0;
+                    itemAmount = StorageUtils.GetFromStorage("itemAmount", itemAmount, new TypeToken<Integer>(){}.getType(), context);
+                    Map<String, Integer> productAmount = new HashMap<>();
+                    productAmount = StorageUtils.GetFromStorage("cart", productAmount, new TypeToken<Map<String, Integer>>(){}.getType(), context);
+                    int oldAmount = productAmount.get(product.getId());
+                    productAmount.put(product.getId(), value);
+                    itemAmount += value - oldAmount;
+                    total += product.getPrice() * (value - oldAmount);
+
+                    priceView.setText(String.format("%1$,.0f VND", total));
+
+                    product.setAmount(value);
+                    StorageUtils.SaveToStorage("cart", context, productAmount);
+                    StorageUtils.SaveToStorage("itemAmount", context, itemAmount);
                 }
             });
         }

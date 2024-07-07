@@ -1,11 +1,15 @@
 package com.prm391.techstore.clients;
 
+import com.prm391.techstore.models.CreateOrderBody;
+import com.prm391.techstore.models.CreateOrderResponse;
 import com.prm391.techstore.models.LaptopBrandsResponse;
 import com.prm391.techstore.models.LoginRequestBody;
 import com.prm391.techstore.models.LoginResponse;
 import com.prm391.techstore.models.ProductByIdResponse;
 import com.prm391.techstore.models.ProductListResponse;
 import com.prm391.techstore.models.RegisterBody;
+import com.prm391.techstore.models.UpdateOrderBody;
+import com.prm391.techstore.models.UpdateOrderResponse;
 import com.prm391.techstore.models.UserDetailsResponse;
 
 import retrofit2.Call;
@@ -13,6 +17,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -41,4 +46,10 @@ public interface TechStoreAPIInterface {
 
     @GET(TechStoreAPIEndpoints.GET_LAPTOP_BRANDS)
     Call<LaptopBrandsResponse> getLaptopBrands(@Query("pageNumber") String pageNumber, @Query("pageSize") String pageSize);
+
+    @POST(TechStoreAPIEndpoints.CREATE_ORDER)
+    Call<CreateOrderResponse> createOrder(@Body CreateOrderBody data);
+
+    @PUT(TechStoreAPIEndpoints.UPDATE_ORDER)
+    Call<UpdateOrderResponse> updateOrder(@Path("orderId") String orderId, @Body UpdateOrderBody data);
 }

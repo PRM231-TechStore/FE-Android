@@ -77,7 +77,7 @@
             app:layout_constraintStart_toStartOf="parent"
             numberpicker:focusable="false"
             numberpicker:max="10"
-            numberpicker:min="0"
+            numberpicker:min="1"
             numberpicker:unit="1"
             numberpicker:value="-5"
             numberpicker:custom_layout="@layout/product_quantity_number_picker_custom"

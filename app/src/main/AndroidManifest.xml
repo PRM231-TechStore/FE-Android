@@ -51,6 +51,16 @@
         <activity
             android:name=".features.product_details.activities.ProductDetailsActivity"
             android:exported="true" />
+        <activity android:name=".features.payment_status.activity.PaymentStatusActivity" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="resultactivity" android:host="sdk.merchantbackapp"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

@@ -36,6 +36,7 @@ android {
 }
 
 dependencies {
+	implementation fileTree(dir: 'libs', include: ['*.aar'])
 	implementation libs.appcompat
 	implementation libs.material
 	implementation 'androidx.lifecycle:lifecycle-process'
