@@ -1,5 +1,7 @@
 package com.prm391.techstore.models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.time.LocalDate;
 
 import lombok.AllArgsConstructor;
@@ -10,9 +12,14 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class UserOrder {
-    private String orderId;
+    @SerializedName("id")
+    private String id;
+    @SerializedName("amount")
     private int amount;
+    @SerializedName("status")
     private int status;
+    @SerializedName("userId")
     private String userId;
-    private LocalDate createdAt;
+    @SerializedName("createdAt")
+    private String createdAt;
 }

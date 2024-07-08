@@ -68,11 +68,13 @@ public class ProductDetailsFragment extends Fragment {
             @Override
             public void onResponse(Call<ProductByIdResponse> call, Response<ProductByIdResponse> response) {
                 ProductByIdResponse responseBody = response.body();
-                product = responseBody.product;
-                BindProductToView();
-                InitializeMobilePhoneLinearLayout();
-                InitializeStoreLocationLinearLayout();
-                productDetailsProgressBar.setVisibility(View.GONE);
+                if(responseBody!=null) {
+                    product = responseBody.product;
+                    BindProductToView();
+                    InitializeMobilePhoneLinearLayout();
+                    InitializeStoreLocationLinearLayout();
+                    productDetailsProgressBar.setVisibility(View.GONE);
+                }
             }
 
             @Override

@@ -76,10 +76,15 @@ public class UserOrdersAdapter extends RecyclerView.Adapter<UserOrdersAdapter.Vi
         }
 
         public void bind(UserOrder userOrder) {
-            this.userOrderId.setText(userOrder.getOrderId());
+            this.userOrderId.setText(userOrder.getId());
             this.userOrderQuantity.setText(Integer.toString(userOrder.getAmount()));
             this.userOrderDate.setText(userOrder.getCreatedAt().toString());
-            this.userOrderDeliveryStatus.setText(Integer.toString(userOrder.getStatus()));
+
+            int deliveryStatus =userOrder.getStatus();
+            if(deliveryStatus==0)
+                this.userOrderDeliveryStatus.setText("In progress");
+            else
+                this.userOrderDeliveryStatus.setText("Delivered");
         }
     }
 }

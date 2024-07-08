@@ -7,9 +7,12 @@ import com.prm391.techstore.models.ProductByIdResponse;
 import com.prm391.techstore.models.ProductListResponse;
 import com.prm391.techstore.models.RegisterBody;
 import com.prm391.techstore.models.UserDetailsResponse;
+import com.prm391.techstore.models.UserOrdersResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
@@ -43,6 +46,9 @@ public interface TechStoreAPIInterface {
     Call<LaptopBrandsResponse> getLaptopBrands(@Query("pageNumber") String pageNumber, @Query("pageSize") String pageSize);
 
     @GET(TechStoreAPIEndpoints.GET_ORDERS_BY_USER_ID)
-    Call<LaptopBrandsResponse> getOrdersByUserId(@Header("Authorization") String token, @Path("userId") String userId);
+    Call<UserOrdersResponse> getOrdersByUserId(@Header("Authorization") String token,
+                                               @Query("userId") String userId,
+                                               @Query("pageNumber") String pageNumber,
+                                               @Query("pageSize") String pageSize);
 
 }

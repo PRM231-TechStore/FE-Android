@@ -11,12 +11,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:weightSum="4">
+        android:weightSum="10">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.6"
+            android:layout_weight="1.5"
             android:gravity="left"
             android:text="Order"
             android:textSize="18dp"
@@ -25,7 +25,7 @@
             android:id="@+id/userOrder_orderId"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="5"
             android:gravity="left"
             android:text="123456"
             android:textSize="18dp"
@@ -33,14 +33,14 @@
 
         <View
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_height="match_parent"
+            android:layout_weight="0.8" />
 
         <TextView
             android:id="@+id/userOrder_orderDate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1.4"
+            android:layout_weight="2.6"
             android:gravity="right"
             android:text="2024-09-01"
             android:textSize="16dp"
@@ -72,6 +72,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginVertical="15dp"
         android:weightSum="3">
         <androidx.appcompat.widget.AppCompatButton
             android:layout_width="0dp"

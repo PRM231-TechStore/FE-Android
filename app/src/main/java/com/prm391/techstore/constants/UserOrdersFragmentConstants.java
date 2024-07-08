@@ -8,11 +8,13 @@ import java.util.List;
 
 public class UserOrdersFragmentConstants {
     public static final String USER_ORDERS_TITLE = "My Orders";
-    public static final List<UserOrder> TEMP_USER_ORDERS_LIST = Arrays.asList(
-            new UserOrder("abc", 1, 1, "def", LocalDate.now()),
-            new UserOrder("abc", 1, 1, "def", LocalDate.now()),
-            new UserOrder("abc", 1, 1, "def", LocalDate.now()),
-            new UserOrder("abc", 1, 1, "def", LocalDate.now()),
-            new UserOrder("abc", 1, 1, "def", LocalDate.now())
-    );
+    public static final String PAGE_NUMBER = "1";
+    public static final String PAGE_SIZE = "10";
+//    public static final List<UserOrder> TEMP_USER_ORDERS_LIST = Arrays.asList(
+//            new UserOrder("abc", 1, 1, "def", LocalDate.now()),
+//            new UserOrder("abc", 1, 1, "def", LocalDate.now()),
+//            new UserOrder("abc", 1, 1, "def", LocalDate.now()),
+//            new UserOrder("abc", 1, 1, "def", LocalDate.now()),
+//            new UserOrder("abc", 1, 1, "def", LocalDate.now())
+//    );
 }

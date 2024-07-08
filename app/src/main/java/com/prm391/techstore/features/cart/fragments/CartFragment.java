@@ -178,11 +178,13 @@ public class CartFragment extends Fragment {
 //    }
 
     private void InitializeProductsRecyclerView() {
-        cartRecyclerView = view.findViewById(R.id.cartRecyclerView);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity().getApplicationContext(),1);
-        cartRecyclerView.setLayoutManager(gridLayoutManager);
-        cartAdapter = new CartAdapter(getActivity().getApplicationContext(), cartProductList, (TextView) view.findViewById(R.id.totalPrice), total);
-        cartRecyclerView.setAdapter(cartAdapter);
+        if(getActivity().getApplicationContext()!=null) {
+            cartRecyclerView = view.findViewById(R.id.cartRecyclerView);
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity().getApplicationContext(), 1);
+            cartRecyclerView.setLayoutManager(gridLayoutManager);
+            cartAdapter = new CartAdapter(getActivity().getApplicationContext(), cartProductList, (TextView) view.findViewById(R.id.totalPrice), total);
+            cartRecyclerView.setAdapter(cartAdapter);
+        }
     }
 
     private void UpdateCheckoutView() {

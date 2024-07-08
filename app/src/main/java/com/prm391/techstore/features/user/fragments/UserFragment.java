@@ -86,8 +86,10 @@ public class UserFragment extends Fragment {
             @Override
             public void onResponse(Call<UserDetailsResponse> call, Response<UserDetailsResponse> response) {
                 UserDetailsResponse responseBody = response.body();
-                InitializeUserProfileLinearLayout(responseBody.getData());
-                userProgressBar.setVisibility(View.GONE);
+                if(responseBody.getData()!=null){
+                    InitializeUserProfileLinearLayout(responseBody.getData());
+                    userProgressBar.setVisibility(View.GONE);
+                }
             }
 
             @Override

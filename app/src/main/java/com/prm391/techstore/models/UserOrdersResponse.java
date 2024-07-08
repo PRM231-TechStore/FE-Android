@@ -4,26 +4,30 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+import lombok.Getter;
+
+@Getter
 public class UserOrdersResponse {
     @SerializedName("resultCode")
-    public String resultCode;
+    private String resultCode;
     @SerializedName("resultMessage")
-    public String resultMessage;
+    private String resultMessage;
     @SerializedName("data")
-    public UserOrdersResponse.OrderListDataObj data;
+    private UserOrdersResponse.OrderListDataObj data;
 
+    @Getter
     public class OrderListDataObj{
         @SerializedName("items")
-        public List<UserOrder> items;
+        private List<UserOrder> items;
         @SerializedName("totalCount")
-        public Integer totalCount;
+        private Integer totalCount;
         @SerializedName("hasNextPage")
-        public Boolean hasNextPage;
+        private Boolean hasNextPage;
         @SerializedName("hasPrevPage")
-        public Boolean hasPrevPage;
+        private Boolean hasPrevPage;
         @SerializedName("pageNumber")
-        public Integer pageNumber;
+        private Integer pageNumber;
         @SerializedName("pageSize")
-        public Integer pageSize;
+        private Integer pageSize;
     }
 }

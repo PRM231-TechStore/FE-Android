@@ -18,6 +18,8 @@ public class MainActivityViewModel extends ViewModel {
     private final MutableLiveData<String> pageNumber = new MutableLiveData<>();
     private final MutableLiveData<String> pageSize = new MutableLiveData<>();
     private final MutableLiveData<String> label = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
+    private MutableLiveData<Boolean> isLastPage = new MutableLiveData<>(false);
     public void ClearAllSearchCategories(){
         searchTerm.setValue(null);
         sortBy.setValue(null);
@@ -27,5 +29,7 @@ public class MainActivityViewModel extends ViewModel {
         pageNumber.setValue(null);
         pageSize.setValue(null);
         label.setValue(null);
+        isLoading.setValue(false);
+        isLastPage.setValue(false);
     }
 }
