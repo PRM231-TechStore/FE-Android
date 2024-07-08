@@ -46,6 +46,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     }
 
     public void updateData(List<Product> newProductList) {
+        if(newProductList==null) return;
         this.products.clear();
         this.products.addAll(newProductList);
         notifyDataSetChanged();

@@ -52,6 +52,7 @@ public class UserOrdersFragment extends Fragment {
         this.view = inflater.inflate(R.layout.fragment_user_orders, container, false);
         this.layoutInflater = inflater;
         SetupActionbar();
+        GetOrdersFromAPI();
         InitializeClassVariables();
         return this.view;
     }
@@ -60,7 +61,11 @@ public class UserOrdersFragment extends Fragment {
         actionBar.setTitle(UserOrdersFragmentConstants.USER_ORDERS_TITLE);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_return_to_previous_activity);
     }
+    private void GetOrdersFromAPI(){
+
+    }
     private void InitializeClassVariables(){
+
         InitializeOrdersRecyclerView();
 
     }

@@ -9,4 +9,5 @@ public class TechStoreAPIEndpoints {
     public static final String REGISTER = "/register";
     public static final String GET_USER_DETAILS = "/users/{userId}";
     public static final String GET_LAPTOP_BRANDS = "/labels?";
+    public static final String GET_ORDERS_BY_USER_ID = "/orders?";
 }

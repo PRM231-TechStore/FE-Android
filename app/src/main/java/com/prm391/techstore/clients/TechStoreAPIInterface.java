@@ -41,4 +41,8 @@ public interface TechStoreAPIInterface {
 
     @GET(TechStoreAPIEndpoints.GET_LAPTOP_BRANDS)
     Call<LaptopBrandsResponse> getLaptopBrands(@Query("pageNumber") String pageNumber, @Query("pageSize") String pageSize);
+
+    @GET(TechStoreAPIEndpoints.GET_ORDERS_BY_USER_ID)
+    Call<LaptopBrandsResponse> getOrdersByUserId(@Header("Authorization") String token, @Path("userId") String userId);
+
 }
