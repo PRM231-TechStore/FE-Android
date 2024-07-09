@@ -115,10 +115,14 @@ public class PaymentStatusActivity extends AppCompatActivity {
             orderIdText.setText(orderId);
             amountText.setText(String.format("%1$,.0f VND", amount));
             orderDateText.setText(formattedOrderDate);
-            int itemAmount = 0;
-            Map<String, Integer> productAmount = new HashMap<>();
-            StorageUtils.SaveToStorage("cart", getBaseContext(), productAmount);
-            StorageUtils.SaveToStorage("itemAmount", getBaseContext(), itemAmount);
+            Map<String ,Map<String, Integer>> userProductAmount = new HashMap<>();
+            Map<String, Integer> userItemAmount = new HashMap<>();
+            userItemAmount = StorageUtils.GetFromStorage("itemAmount", userItemAmount, new TypeToken<Map<String, Integer>>(){}.getType(), getBaseContext());
+            userProductAmount = StorageUtils.GetFromStorage("cart", userProductAmount, new TypeToken<Map<String ,Map<String, Integer>>>(){}.getType(), getBaseContext());
+            userItemAmount.put(currentUser.getUserId(), 0);
+            userProductAmount.put(currentUser.getUserId(), new HashMap<String, Integer>());
+            StorageUtils.SaveToStorage("cart", getBaseContext(), userProductAmount);
+            StorageUtils.SaveToStorage("itemAmount", getBaseContext(), userItemAmount);
             Button backHomeButton = findViewById(R.id.payment_status_back_home_button);
             backHomeButton.setOnClickListener(v -> {
                 Intent intent1 = new Intent(getBaseContext(), MainActivity.class);
