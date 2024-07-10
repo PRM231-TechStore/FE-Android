@@ -65,6 +65,7 @@ public class StoreLocationActivity extends AppCompatActivity implements OnMapRea
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle(StoreLocationConstants.TITLE_NAME);
         actionBar.setHomeButtonEnabled(true);
     }
 

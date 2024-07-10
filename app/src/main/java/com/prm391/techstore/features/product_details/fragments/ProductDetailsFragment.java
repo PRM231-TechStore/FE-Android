@@ -56,6 +56,12 @@ public class ProductDetailsFragment extends Fragment {
         GetProductById();
         return view;
     }
+    @Override
+    public void onResume(){
+        //Hides the progress bar after exiting the maps screen
+        productDetailsProgressBar.setVisibility(View.GONE);
+        super.onResume();
+    }
     private void InitializeClassVariables(){
         techStoreAPIInterface = TechStoreRetrofitClient.getClient().create(TechStoreAPIInterface.class);
         productDetailsProgressBar = view.findViewById(R.id.productDetails_ProgressBar);
@@ -139,10 +145,9 @@ public class ProductDetailsFragment extends Fragment {
         startActivity(intent);
     }
     private void SwitchToStoreLocationActivity(){
-//        productDetailsProgressBar.setVisibility(View.VISIBLE);
+        productDetailsProgressBar.setVisibility(View.VISIBLE);
         Intent intent = new Intent(getActivity(), StoreLocationActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
-//        productDetailsProgressBar.setVisibility(View.GONE);
     }
 }

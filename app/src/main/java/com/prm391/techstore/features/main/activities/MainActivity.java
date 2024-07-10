@@ -75,18 +75,6 @@ public class MainActivity extends AppCompatActivity {
         FragmentUtils.replace(R.id.mainFrameLayout, new ProductListFragment(), getSupportFragmentManager());
         mainActivityViewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
     }
-//    private void OverrideOnBackPressedCallback(){
-//        OnBackPressedCallback onBackPressedCallback = new OnBackPressedCallback(true) {
-//            @Override
-//            public void handleOnBackPressed() {
-//                FragmentManager fragmentManager = getSupportFragmentManager();
-//                if (fragmentManager.getBackStackEntryCount() > 0) {
-//                    fragmentManager.popBackStack(); // Pop the fragment from the back stack
-//                }
-//            }
-//        };
-//        getOnBackPressedDispatcher().addCallback(this,onBackPressedCallback);
-//    }
 
     private void InitializeSearch(Menu menu) {
         InitializeSearchMenu(menu);

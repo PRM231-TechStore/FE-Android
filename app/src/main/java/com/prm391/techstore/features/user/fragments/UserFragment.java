@@ -21,6 +21,7 @@ import com.google.gson.reflect.TypeToken;
 import com.prm391.techstore.R;
 import com.prm391.techstore.clients.TechStoreAPIInterface;
 import com.prm391.techstore.clients.TechStoreRetrofitClient;
+import com.prm391.techstore.constants.MainActivityConstants;
 import com.prm391.techstore.constants.UserFragmentConstants;
 import com.prm391.techstore.constants.UserOrdersFragmentConstants;
 import com.prm391.techstore.features.user.on_click_listeners.LogoutOnClickListener;
@@ -74,6 +75,7 @@ public class UserFragment extends Fragment {
     }
     private void SetupActionbar() {
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        actionBar.setTitle(MainActivityConstants.USER_PROFILE_TITLE);
         actionBar.setDisplayHomeAsUpEnabled(false);
     }
     private void InitializeClassVariables() {

@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -59,7 +61,12 @@ public class UserOrderDetailsFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem item = menu.findItem(R.id.productList_searchMenuItem);
+        if (item != null)
+            item.setVisible(false);
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +84,7 @@ public class UserOrderDetailsFragment extends Fragment {
     }
     private void SetupActionbar() {
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        actionBar.setTitle(UserOrdersFragmentConstants.USER_ORDERS_TITLE);
+        actionBar.setTitle(UserOrdersFragmentConstants.USER_ORDER_DETAILS_TITLE);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_return_to_previous_activity);
         actionBar.setDisplayHomeAsUpEnabled(true);
     }
