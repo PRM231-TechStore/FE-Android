@@ -59,6 +59,7 @@ public class UserOrdersAdapter extends RecyclerView.Adapter<UserOrdersAdapter.Vi
 
     @Override
     public int getItemCount() {
+        if(userOrders==null) return 0;
         return userOrders.size();
     }
 
