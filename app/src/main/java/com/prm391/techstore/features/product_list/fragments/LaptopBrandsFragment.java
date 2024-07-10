@@ -41,8 +41,6 @@ public class LaptopBrandsFragment extends Fragment {
     private LayoutInflater layoutInflater;
     private TechStoreAPIInterface techStoreAPIInterface;
     private MainActivityViewModel mainActivityViewModel;
-
-    private FragmentManager fm;
     private List<LaptopBrandsResponse.Data.LaptopBrand> laptopBrandList;
     public LaptopBrandsFragment() {
         // Required empty public constructor
@@ -65,7 +63,6 @@ public class LaptopBrandsFragment extends Fragment {
     }
     private void InitializeClassVariables() throws Exception{
         techStoreAPIInterface = TechStoreRetrofitClient.getClient().create(TechStoreAPIInterface.class);
-        fm = getParentFragmentManager();
         mainActivityViewModel = new ViewModelProvider(requireActivity()).get(MainActivityViewModel.class);
     }
     private void GetLaptopBrands(){

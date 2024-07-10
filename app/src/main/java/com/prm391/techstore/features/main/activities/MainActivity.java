@@ -4,12 +4,15 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 
@@ -35,9 +38,9 @@ public class MainActivity extends AppCompatActivity {
         try {
             super.onCreate(savedInstanceState);
             InitializeClassVariables();
+//            OverrideOnBackPressedCallback();
             SetupActionBar();
             SetupBottomNavBar();
-
         } catch (Exception e) {
             e.getMessage();
         }
@@ -54,10 +57,17 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                if (getParentActivityIntent() == null) {
+
+                    onBackPressed();
+                } else {
+                    NavUtils.navigateUpFromSameTask(this);
+                }
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     private void InitializeClassVariables() {
         activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -65,6 +75,18 @@ public class MainActivity extends AppCompatActivity {
         FragmentUtils.replace(R.id.mainFrameLayout, new ProductListFragment(), getSupportFragmentManager());
         mainActivityViewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
     }
+//    private void OverrideOnBackPressedCallback(){
+//        OnBackPressedCallback onBackPressedCallback = new OnBackPressedCallback(true) {
+//            @Override
+//            public void handleOnBackPressed() {
+//                FragmentManager fragmentManager = getSupportFragmentManager();
+//                if (fragmentManager.getBackStackEntryCount() > 0) {
+//                    fragmentManager.popBackStack(); // Pop the fragment from the back stack
+//                }
+//            }
+//        };
+//        getOnBackPressedDispatcher().addCallback(this,onBackPressedCallback);
+//    }
 
     private void InitializeSearch(Menu menu) {
         InitializeSearchMenu(menu);
@@ -142,28 +164,25 @@ public class MainActivity extends AppCompatActivity {
 
     private void SetupBottomNavBar() {
         activityMainBinding.bottomNavigationBar.setOnItemSelectedListener(
-                new NavigationBarView.OnItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        int navMenuItemId = item.getItemId();
-                        Fragment fragment = null;
-                        if (navMenuItemId == R.id.homeNavMenu) {
-                            ActionBar actionBar = getSupportActionBar();
-                            actionBar.setTitle(MainActivityConstants.ALL_PRODUCTS_TITLE);
-                            fragment = new ProductListFragment();
+                item -> {
+                    int navMenuItemId = item.getItemId();
+                    Fragment fragment = null;
+                    if (navMenuItemId == R.id.homeNavMenu) {
+                        ActionBar actionBar = getSupportActionBar();
+                        actionBar.setTitle(MainActivityConstants.ALL_PRODUCTS_TITLE);
+                        fragment = new ProductListFragment();
 
-                        } else if (navMenuItemId == R.id.cartNavMenu) {
-                            ActionBar actionBar = getSupportActionBar();
-                            actionBar.setTitle(MainActivityConstants.CART_TITLE);
-                            fragment = new CartFragment();
-                        } else if (navMenuItemId == R.id.userNavMenu) {
-                            ActionBar actionBar = getSupportActionBar();
-                            actionBar.setTitle(MainActivityConstants.USER_PROFILE_TITLE);
-                            fragment = new UserFragment();
-                        }
-                        FragmentUtils.replace(R.id.mainFrameLayout, fragment, getSupportFragmentManager());
-                        return true;
+                    } else if (navMenuItemId == R.id.cartNavMenu) {
+                        ActionBar actionBar = getSupportActionBar();
+                        actionBar.setTitle(MainActivityConstants.CART_TITLE);
+                        fragment = new CartFragment();
+                    } else if (navMenuItemId == R.id.userNavMenu) {
+                        ActionBar actionBar = getSupportActionBar();
+                        actionBar.setTitle(MainActivityConstants.USER_PROFILE_TITLE);
+                        fragment = new UserFragment();
                     }
+                    FragmentUtils.replace(R.id.mainFrameLayout, fragment, getSupportFragmentManager());
+                    return true;
                 }
 
         );

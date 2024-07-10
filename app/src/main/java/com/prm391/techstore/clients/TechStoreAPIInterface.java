@@ -11,6 +11,8 @@ import com.prm391.techstore.models.RegisterBody;
 import com.prm391.techstore.models.UpdateOrderBody;
 import com.prm391.techstore.models.UpdateOrderResponse;
 import com.prm391.techstore.models.UserDetailsResponse;
+import com.prm391.techstore.models.UserOrderDetailsResponse;
+import com.prm391.techstore.models.UserOrdersResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -52,4 +54,15 @@ public interface TechStoreAPIInterface {
 
     @PUT(TechStoreAPIEndpoints.UPDATE_ORDER)
     Call<UpdateOrderResponse> updateOrder(@Path("orderId") String orderId, @Body UpdateOrderBody data);
+
+    @GET(TechStoreAPIEndpoints.GET_ORDERS_BY_USER_ID)
+    Call<UserOrdersResponse> getOrdersByUserId(@Header("Authorization") String token,
+                                               @Query("userId") String userId,
+                                               @Query("pageNumber") String pageNumber,
+                                               @Query("pageSize") String pageSize);
+
+    @GET(TechStoreAPIEndpoints.GET_ORDER_DETAILS_BY_ORDER_ID)
+    Call<UserOrderDetailsResponse> getOrderDetailsByOrderId(@Header("Authorization") String token,
+                                                            @Path("orderId") String orderId);
+
 }

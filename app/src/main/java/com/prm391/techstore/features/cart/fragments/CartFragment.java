@@ -1,5 +1,7 @@
 package com.prm391.techstore.features.cart.fragments;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -67,12 +69,14 @@ public class CartFragment extends Fragment {
     private CartAdapter cartAdapter;
 
     private TechStoreAPIInterface techStoreAPIInterface;
+
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        MenuItem item=menu.findItem(R.id.productList_searchMenuItem);
-        if(item!=null)
+        MenuItem item = menu.findItem(R.id.productList_searchMenuItem);
+        if (item != null)
             item.setVisible(false);
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -116,14 +120,16 @@ public class CartFragment extends Fragment {
         }
     }
 
-    public void GetProductsFromAPI() throws Exception{
+    public void GetProductsFromAPI() throws Exception {
         LoginInfo currentUser = null;
-        currentUser = StorageUtils.GetFromStorage("user", currentUser, new TypeToken<LoginInfo>(){}.getType(), getContext());
+        currentUser = StorageUtils.GetFromStorage("user", currentUser, new TypeToken<LoginInfo>() {
+        }.getType(), getContext());
         Map<String, Map<String, Integer>> userProductAmount = new HashMap<>();
-        userProductAmount = StorageUtils.GetFromStorage("cart", userProductAmount, new TypeToken<Map<String, Map<String, Integer>>>(){}.getType(), getContext());
+        userProductAmount = StorageUtils.GetFromStorage("cart", userProductAmount, new TypeToken<Map<String, Map<String, Integer>>>() {
+        }.getType(), getContext());
         Map<String, Integer> productAmount = userProductAmount.get(currentUser.getUserId());
 
-        for (Map.Entry<String, Integer> entry: productAmount.entrySet()) {
+        for (Map.Entry<String, Integer> entry : productAmount.entrySet()) {
             Call<ProductByIdResponse> call = techStoreAPIInterface.getProductById(entry.getKey());
             call.enqueue(new Callback<ProductByIdResponse>() {
                 @Override
@@ -158,7 +164,8 @@ public class CartFragment extends Fragment {
         cartProductList = new ArrayList<CartProduct>();
         total = 0;
         LoginInfo currentUser = null;
-        currentUser = StorageUtils.GetFromStorage("user", currentUser, new TypeToken<LoginInfo>(){}.getType(), getContext());
+        currentUser = StorageUtils.GetFromStorage("user", currentUser, new TypeToken<LoginInfo>() {
+        }.getType(), getContext());
         techStoreAPIInterface = TechStoreRetrofitClient.getClient(currentUser.getToken()).create(TechStoreAPIInterface.class);
         InitializeProductsRecyclerView();
     }
@@ -190,11 +197,16 @@ public class CartFragment extends Fragment {
 //    }
 
     private void InitializeProductsRecyclerView() {
+        Activity activity = getActivity();
+        if (activity == null) return;
+        Context context = activity.getApplicationContext();
+        if (context == null) return;
         cartRecyclerView = view.findViewById(R.id.cartRecyclerView);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity().getApplicationContext(),1);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 1);
         cartRecyclerView.setLayoutManager(gridLayoutManager);
-        cartAdapter = new CartAdapter(getActivity().getApplicationContext(), cartProductList, (TextView) view.findViewById(R.id.totalPrice), total);
+        cartAdapter = new CartAdapter(context, cartProductList, (TextView) view.findViewById(R.id.totalPrice), total);
         cartRecyclerView.setAdapter(cartAdapter);
+
     }
 
     private void UpdateCheckoutView() {
@@ -218,12 +230,13 @@ public class CartFragment extends Fragment {
         });
     }
 
-    private void CreateOrderAndDoCheckout() throws UnsupportedEncodingException{
+    private void CreateOrderAndDoCheckout() throws UnsupportedEncodingException {
         try {
             LoginInfo currentUser = null;
-            currentUser = StorageUtils.GetFromStorage("user", currentUser, new TypeToken<LoginInfo>(){}.getType(), getContext());
+            currentUser = StorageUtils.GetFromStorage("user", currentUser, new TypeToken<LoginInfo>() {
+            }.getType(), getContext());
             List<RequestProductObj> requestProductObjs = new ArrayList<>();
-            for (CartProduct product: cartProductList) {
+            for (CartProduct product : cartProductList) {
                 requestProductObjs.add(new RequestProductObj(product.getId(), product.getAmount()));
             }
             CreateOrderBody createOrderBody = new CreateOrderBody(new CreateOrderPayload(currentUser.getUserId(), (long) total, requestProductObjs));

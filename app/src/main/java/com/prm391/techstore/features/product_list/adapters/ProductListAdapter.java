@@ -46,6 +46,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     }
 
     public void updateData(List<Product> newProductList) {
+        if(newProductList==null) return;
         this.products.clear();
         this.products.addAll(newProductList);
         notifyDataSetChanged();
@@ -71,21 +72,17 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             this.productImageView = (ImageView) view.findViewById(R.id.productImage);
             this.productName = (TextView) view.findViewById(R.id.productName);
             this.productPrice = (TextView) view.findViewById(R.id.productPrice);
-            this.view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        Product product = products.get(position);
-
-                        Intent intent = new Intent(context, ProductDetailsActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.putExtra("productId", product.getId()); // Pass product ID as intent extra
-                        context.startActivity(intent);
-                    }
+            this.handler = new Handler(Looper.getMainLooper());
+            this.view.setOnClickListener(view -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    Product product = products.get(position);
+                    Intent intent = new Intent(context, ProductDetailsActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra("productId", product.getId()); // Pass product ID as intent extra
+                    context.startActivity(intent);
                 }
             });
-            this.handler = new Handler(Looper.getMainLooper());
         }
         public void bind(Product product) {
             this.productName.setText(product.getName());

@@ -3,6 +3,8 @@ package com.prm391.techstore.features.user.fragments;
 import android.app.AlertDialog;
 import android.os.Bundle;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -20,6 +22,7 @@ import com.prm391.techstore.R;
 import com.prm391.techstore.clients.TechStoreAPIInterface;
 import com.prm391.techstore.clients.TechStoreRetrofitClient;
 import com.prm391.techstore.constants.UserFragmentConstants;
+import com.prm391.techstore.constants.UserOrdersFragmentConstants;
 import com.prm391.techstore.features.user.on_click_listeners.LogoutOnClickListener;
 import com.prm391.techstore.models.LoginInfo;
 import com.prm391.techstore.models.UserDetailsResponse;
@@ -64,16 +67,20 @@ public class UserFragment extends Fragment {
         this.layoutInflater = inflater;
         this.view = this.layoutInflater.inflate(R.layout.fragment_user, container, false);
         userFragmentConstants = new UserFragmentConstants(this);
+        SetupActionbar();
         InitializeClassVariables();
         GetUserDetailsFromAPI();
         return view;
     }
-
+    private void SetupActionbar() {
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(false);
+    }
     private void InitializeClassVariables() {
         techStoreAPIInterface = TechStoreRetrofitClient.getClient().create(TechStoreAPIInterface.class);
         userProgressBar = view.findViewById(R.id.user_ProgressBar);
         InitializeUserOptionsLinearLayout();
-        InitializeLogoutButton();
+//        InitializeLogoutButton();
     }
     private void GetUserDetailsFromAPI(){
         LoginInfo loginInfo = null;
@@ -86,8 +93,10 @@ public class UserFragment extends Fragment {
             @Override
             public void onResponse(Call<UserDetailsResponse> call, Response<UserDetailsResponse> response) {
                 UserDetailsResponse responseBody = response.body();
-                InitializeUserProfileLinearLayout(responseBody.getData());
-                userProgressBar.setVisibility(View.GONE);
+                if(responseBody.getData()!=null){
+                    InitializeUserProfileLinearLayout(responseBody.getData());
+                    userProgressBar.setVisibility(View.GONE);
+                }
             }
 
             @Override
@@ -104,16 +113,16 @@ public class UserFragment extends Fragment {
         }
 
     }
-    private void InitializeLogoutButton(){
-        logoutButton = view.findViewById(R.id.userLogoutButton);
-        logoutButton.setOnClickListener(v -> {
-            AlertDialog dialog = DialogUtils.getOkCancelDialog(getContext(),
-                    userFragmentConstants.getWARNING_TITLE(),
-                    userFragmentConstants.getLOGOUT_PROMPT(),
-                new LogoutOnClickListener());
-            dialog.show();
-        });
-    }
+//    private void InitializeLogoutButton(){
+//        logoutButton = view.findViewById(R.id.userLogoutButton);
+//        logoutButton.setOnClickListener(v -> {
+//            AlertDialog dialog = DialogUtils.getOkCancelDialog(getContext(),
+//                    userFragmentConstants.getWARNING_TITLE(),
+//                    userFragmentConstants.getLOGOUT_PROMPT(),
+//                new LogoutOnClickListener());
+//            dialog.show();
+//        });
+//    }
 
 
     private LinearLayout BuildSingleUserOptionLinearLayout(UserSingleOption userSingleOption ) {
