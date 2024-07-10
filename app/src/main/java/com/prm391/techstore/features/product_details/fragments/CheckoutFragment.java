@@ -20,6 +20,7 @@ import com.prm391.techstore.R;
 import com.prm391.techstore.constants.DialogConstants;
 import com.prm391.techstore.constants.ProductDetailsConstants;
 import com.prm391.techstore.features.product_details.activities.ProductDetailsActivity;
+import com.prm391.techstore.models.LoginInfo;
 import com.prm391.techstore.utils.DialogUtils;
 import com.prm391.techstore.utils.StorageUtils;
 import com.travijuu.numberpicker.library.NumberPicker;
@@ -59,7 +60,7 @@ public class CheckoutFragment extends Fragment {
     }
     private void InitializeClassVariables(){
         quantityPicker = view.findViewById(R.id.quantityPicker);
-        int cartAmount = ((ProductDetailsActivity) getActivity()).getIntent().getExtras().getInt("cartAmount");
+        int cartAmount = ((ProductDetailsActivity) getActivity()).GetCartProductAmountFromBundles();
         quantityPicker.setValue(cartAmount);
         InitializeAddToCartButton();
     }
@@ -72,16 +73,26 @@ public class CheckoutFragment extends Fragment {
                 int quantity = quantityPicker.getValue();
                 if (quantity==0) ShowInvalidQuantityDialog();
                 else{
-                    String contents = "";
                     ProductDetailsActivity activity = (ProductDetailsActivity) getActivity();
-                    Map<String, Integer> productAmount = new HashMap<>();
+                    Map<String ,Map<String, Integer>> userProductAmount = new HashMap<>();
+                    Map<String, Integer> userItemAmount = new HashMap<>();
+                    LoginInfo currentUser = null;
+                    currentUser = StorageUtils.GetFromStorage("user", currentUser, new TypeToken<LoginInfo>(){}.getType(), getContext());
+                    userItemAmount = StorageUtils.GetFromStorage("itemAmount", userItemAmount, new TypeToken<Map<String, Integer>>(){}.getType(), getContext());
+                    userProductAmount = StorageUtils.GetFromStorage("cart", userProductAmount, new TypeToken<Map<String ,Map<String, Integer>>>(){}.getType(), getContext());
+                    Map<String, Integer> productAmount = userProductAmount.get(currentUser.getUserId()) != null ? userProductAmount.get(currentUser.getUserId()) : new HashMap<String, Integer>();
                     int itemAmount = 0;
-                    itemAmount = StorageUtils.GetFromStorage("itemAmount", itemAmount, new TypeToken<Integer>(){}.getType(), getContext());
-                    productAmount = StorageUtils.GetFromStorage("cart", productAmount, new TypeToken<Map<String, Integer>>(){}.getType(), getContext());
-                    productAmount.put(activity.GetProductIdFromBundles(), quantity);
+                    try {
+                        itemAmount = userItemAmount.get(currentUser.getUserId()) != null ? userItemAmount.get(currentUser.getUserId()) : 0;
+                        productAmount.put(activity.GetProductIdFromBundles(), quantity);
+                    } catch (Exception e) {
+
+                    }
+                    userProductAmount.put(currentUser.getUserId(), productAmount);
                     itemAmount += quantity;
-                    StorageUtils.SaveToStorage("cart", getContext(), productAmount);
-                    StorageUtils.SaveToStorage("itemAmount", getContext(), itemAmount);
+                    userItemAmount.put(currentUser.getUserId(), itemAmount);
+                    StorageUtils.SaveToStorage("cart", getContext(), userProductAmount);
+                    StorageUtils.SaveToStorage("itemAmount", getContext(), userItemAmount);
 
                     ShowAddToCartSuccessfulDialog();
                 }

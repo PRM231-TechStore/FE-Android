@@ -19,9 +19,12 @@ import com.google.gson.reflect.TypeToken;
 import com.prm391.techstore.R;
 import com.prm391.techstore.features.product_details.activities.ProductDetailsActivity;
 import com.prm391.techstore.models.CartProduct;
+import com.prm391.techstore.models.LoginInfo;
 import com.prm391.techstore.models.Product;
 import com.prm391.techstore.utils.ImageUtils;
 import com.prm391.techstore.utils.StorageUtils;
+import com.travijuu.numberpicker.library.Enums.ActionEnum;
+import com.travijuu.numberpicker.library.Interface.ValueChangedListener;
 import com.travijuu.numberpicker.library.NumberPicker;
 
 import java.io.BufferedReader;
@@ -114,20 +117,65 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             removeText.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int itemAmount = 0;
-                    itemAmount = StorageUtils.GetFromStorage("itemAmount", itemAmount, new TypeToken<Integer>(){}.getType(), context);
                     int position = getAdapterPosition();
                     CartProduct product = products.get(position);
-                    Map<String, Integer> productAmount = new HashMap<>();
-                    productAmount = StorageUtils.GetFromStorage("cart", productAmount, new TypeToken<Map<String, Integer>>(){}.getType(), context);
+                    Map<String ,Map<String, Integer>> userProductAmount = new HashMap<>();
+                    Map<String, Integer> userItemAmount = new HashMap<>();
+                    LoginInfo currentUser = null;
+                    currentUser = StorageUtils.GetFromStorage("user", currentUser, new TypeToken<LoginInfo>(){}.getType(), context);
+                    userItemAmount = StorageUtils.GetFromStorage("itemAmount", userItemAmount, new TypeToken<Map<String, Integer>>(){}.getType(), context);
+                    userProductAmount = StorageUtils.GetFromStorage("cart", userProductAmount, new TypeToken<Map<String ,Map<String, Integer>>>(){}.getType(), context);
+                    Map<String, Integer> productAmount = userProductAmount.get(currentUser.getUserId()) != null ? userProductAmount.get(currentUser.getUserId()) : new HashMap<String, Integer>();
+                    int itemAmount = 0;
+                    try {
+                        productAmount = userProductAmount.get(currentUser.getUserId());
+                        itemAmount = userItemAmount.get(currentUser.getUserId()) != null ? userItemAmount.get(currentUser.getUserId()) : 0;
+                    }catch (Exception e) {
+
+                    }
                     productAmount.remove(product.getId());
                     products.remove(product);
+                    userProductAmount.put(currentUser.getUserId(), productAmount);
                     itemAmount -= product.getAmount();
+                    userItemAmount.put(currentUser.getUserId(), itemAmount);
                     total -= product.getPrice() * product.getAmount();
                     priceView.setText(String.format("%1$,.0f VND", total));
-                    StorageUtils.SaveToStorage("cart", context, productAmount);
-                    StorageUtils.SaveToStorage("itemAmount", context, itemAmount);
+                    StorageUtils.SaveToStorage("cart", context, userProductAmount);
+                    StorageUtils.SaveToStorage("itemAmount", context, userItemAmount);
                     adapter.notifyItemRemoved(position);
+                }
+            });
+            numberPicker.setValueChangedListener(new ValueChangedListener() {
+                @Override
+                public void valueChanged(int value, ActionEnum action) {
+                    int position = getAdapterPosition();
+                    CartProduct product = products.get(position);
+                    Map<String ,Map<String, Integer>> userProductAmount = new HashMap<>();
+                    Map<String, Integer> userItemAmount = new HashMap<>();
+                    LoginInfo currentUser = null;
+                    currentUser = StorageUtils.GetFromStorage("user", currentUser, new TypeToken<LoginInfo>(){}.getType(), context);
+                    userItemAmount = StorageUtils.GetFromStorage("itemAmount", userItemAmount, new TypeToken<Map<String, Integer>>(){}.getType(), context);
+                    userProductAmount = StorageUtils.GetFromStorage("cart", userProductAmount, new TypeToken<Map<String ,Map<String, Integer>>>(){}.getType(), context);
+                    Map<String, Integer> productAmount = userProductAmount.get(currentUser.getUserId()) != null ? userProductAmount.get(currentUser.getUserId()) : new HashMap<String, Integer>();
+                    int itemAmount = 0;
+                    try {
+                        productAmount = userProductAmount.get(currentUser.getUserId());
+                        itemAmount = userItemAmount.get(currentUser.getUserId()) != null ? userItemAmount.get(currentUser.getUserId()) : 0;
+                    }catch (Exception e) {
+
+                    }
+                    int oldAmount = productAmount.get(product.getId());
+                    productAmount.put(product.getId(), value);
+                    userProductAmount.put(currentUser.getUserId(), productAmount);
+                    itemAmount += value - oldAmount;
+                    userItemAmount.put(currentUser.getUserId(), itemAmount);
+                    total += product.getPrice() * (value - oldAmount);
+
+                    priceView.setText(String.format("%1$,.0f VND", total));
+
+                    product.setAmount(value);
+                    StorageUtils.SaveToStorage("cart", context, userProductAmount);
+                    StorageUtils.SaveToStorage("itemAmount", context, userItemAmount);
                 }
             });
         }

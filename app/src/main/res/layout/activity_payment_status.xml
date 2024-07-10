@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.flexbox.FlexboxLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".features.payment_status.activity.PaymentStatusActivity"
+    android:id="@+id/payment_status"
+    app:justifyContent="center"
+    app:alignItems="center"
+    app:flexDirection="column"
+    android:paddingVertical="20dp"
+    android:paddingHorizontal="10dp">
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:id="@+id/status_logo"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="35sp"
+        android:id="@+id/status_text"
+        android:layout_marginTop="5dp"/>
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:justifyContent="space_between">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="Order Id"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/payment_status_order_id"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:textSize="20sp" />
+    </com.google.android.flexbox.FlexboxLayout>
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:justifyContent="space_between">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="Amount"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/payment_status_order_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp" />
+    </com.google.android.flexbox.FlexboxLayout>
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:justifyContent="space_between">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="Order Date"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/payment_status_order_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp" />
+    </com.google.android.flexbox.FlexboxLayout>
+    <Button
+        android:id="@+id/payment_status_back_home_button"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="15dp"
+        android:text="Back to Home"/>
+</com.google.android.flexbox.FlexboxLayout>
