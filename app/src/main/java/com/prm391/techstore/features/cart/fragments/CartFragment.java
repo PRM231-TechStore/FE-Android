@@ -117,8 +117,11 @@ public class CartFragment extends Fragment {
     }
 
     public void GetProductsFromAPI() throws Exception{
-        Map<String, Integer> productAmount = new HashMap<>();
-        productAmount = StorageUtils.GetFromStorage("cart", productAmount, new TypeToken<Map<String, Integer>>(){}.getType(), getContext());
+        LoginInfo currentUser = null;
+        currentUser = StorageUtils.GetFromStorage("user", currentUser, new TypeToken<LoginInfo>(){}.getType(), getContext());
+        Map<String, Map<String, Integer>> userProductAmount = new HashMap<>();
+        userProductAmount = StorageUtils.GetFromStorage("cart", userProductAmount, new TypeToken<Map<String, Map<String, Integer>>>(){}.getType(), getContext());
+        Map<String, Integer> productAmount = userProductAmount.get(currentUser.getUserId());
 
         for (Map.Entry<String, Integer> entry: productAmount.entrySet()) {
             Call<ProductByIdResponse> call = techStoreAPIInterface.getProductById(entry.getKey());
