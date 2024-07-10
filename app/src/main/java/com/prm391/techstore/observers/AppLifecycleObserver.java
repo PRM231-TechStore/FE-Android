@@ -16,7 +16,11 @@ import androidx.lifecycle.LifecycleOwner;
 import com.google.gson.reflect.TypeToken;
 import com.prm391.techstore.R;
 import com.prm391.techstore.features.main.activities.MainActivity;
+import com.prm391.techstore.models.LoginInfo;
 import com.prm391.techstore.utils.StorageUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class AppLifecycleObserver implements DefaultLifecycleObserver {
     private Context context;
@@ -25,8 +29,13 @@ public class AppLifecycleObserver implements DefaultLifecycleObserver {
     }
     @Override
     public void onPause(@NonNull LifecycleOwner owner) {
-        int itemAmount = 0;
-        itemAmount = StorageUtils.GetFromStorage("itemAmount", itemAmount, new TypeToken<Integer>(){}.getType(), context);
+        Map<String, Integer> userItemAmount = new HashMap<>();
+        LoginInfo currentUser = null;
+
+        currentUser = StorageUtils.GetFromStorage("user", currentUser, new TypeToken<LoginInfo>(){}.getType(), context);
+        userItemAmount = StorageUtils.GetFromStorage("itemAmount", userItemAmount, new TypeToken<Map<String, Integer>>(){}.getType(), context);
+
+        int itemAmount = userItemAmount.get(currentUser.getUserId()) != null ? userItemAmount.get(currentUser.getUserId()) : 0;
 
         if (itemAmount > 0) {
             Intent intent = new Intent(context, MainActivity.class);
