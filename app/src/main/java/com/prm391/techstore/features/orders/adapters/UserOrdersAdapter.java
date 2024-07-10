@@ -1,6 +1,7 @@
 package com.prm391.techstore.features.orders.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
@@ -10,10 +11,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.prm391.techstore.R;
+import com.prm391.techstore.features.orders.UserOrderDetailsFragment;
+import com.prm391.techstore.features.orders.UserOrdersFragment;
+import com.prm391.techstore.features.product_details.activities.ProductDetailsActivity;
+import com.prm391.techstore.models.Product;
 import com.prm391.techstore.models.UserOrder;
+import com.prm391.techstore.utils.FragmentUtils;
 
 
 import java.util.List;
@@ -22,10 +29,12 @@ import java.util.List;
 public class UserOrdersAdapter extends RecyclerView.Adapter<UserOrdersAdapter.ViewHolder> {
     private List<UserOrder> userOrders;
     private Context context;
+    private UserOrdersFragment userOrdersFragment;
 
-    public UserOrdersAdapter(Context context, List<UserOrder> userOrders) {
+    public UserOrdersAdapter(Context context, List<UserOrder> userOrders, UserOrdersFragment userOrdersFragment) {
         this.context = context;
         this.userOrders = userOrders;
+        this.userOrdersFragment = userOrdersFragment;
     }
 
     @NonNull
@@ -60,6 +69,7 @@ public class UserOrdersAdapter extends RecyclerView.Adapter<UserOrdersAdapter.Vi
         private TextView userOrderDeliveryStatus;
         private View view;
         private Handler handler;
+        private AppCompatButton detailsButton;
 
         public ViewHolder(View view) {
             super(view);
@@ -67,13 +77,6 @@ public class UserOrdersAdapter extends RecyclerView.Adapter<UserOrdersAdapter.Vi
             InitializeClassVariables();
         }
 
-        private void InitializeClassVariables() {
-            this.userOrderId = (TextView) view.findViewById(R.id.userOrder_orderId);
-            this.userOrderQuantity = (TextView) view.findViewById(R.id.userOrder_quantity);
-            this.userOrderDate = (TextView) view.findViewById(R.id.userOrder_orderDate);
-            this.userOrderDeliveryStatus = (TextView) view.findViewById(R.id.userOrder_deliveryStatus);
-            this.handler = new Handler(Looper.getMainLooper());
-        }
 
         public void bind(UserOrder userOrder) {
             this.userOrderId.setText(userOrder.getId());
@@ -86,5 +89,30 @@ public class UserOrdersAdapter extends RecyclerView.Adapter<UserOrdersAdapter.Vi
             else
                 this.userOrderDeliveryStatus.setText("Delivered");
         }
+        private void InitializeClassVariables() {
+            this.userOrderId = (TextView) view.findViewById(R.id.userOrder_orderId);
+            this.userOrderQuantity = (TextView) view.findViewById(R.id.userOrder_quantity);
+            this.userOrderDate = (TextView) view.findViewById(R.id.userOrder_orderDate);
+            this.userOrderDeliveryStatus = (TextView) view.findViewById(R.id.userOrder_deliveryStatus);
+            this.handler = new Handler(Looper.getMainLooper());
+            InitializeDetailsButton();
+        }
+        private void InitializeDetailsButton(){
+            this.detailsButton = view.findViewById(R.id.userOrder_detailsButton);
+            this.detailsButton.setOnClickListener(view -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    StartUserOrderDetailsFragment();
+                }
+            });
+        }
+        private void StartUserOrderDetailsFragment(){
+            int position = getAdapterPosition();
+            UserOrder userOrder =userOrders.get(position);
+            FragmentUtils.replace(R.id.mainFrameLayout,
+                     UserOrderDetailsFragment.newInstance(userOrder.getId()),
+                    userOrdersFragment.getParentFragmentManager());
+        }
+
     }
 }

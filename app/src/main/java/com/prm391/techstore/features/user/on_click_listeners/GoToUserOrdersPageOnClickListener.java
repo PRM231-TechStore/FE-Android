@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 
+import com.prm391.techstore.constants.UserOrdersFragmentConstants;
 import com.prm391.techstore.utils.FragmentUtils;
 
 public class GoToUserOrdersPageOnClickListener implements View.OnClickListener {
@@ -21,6 +22,8 @@ public class GoToUserOrdersPageOnClickListener implements View.OnClickListener {
     }
     @Override
     public void onClick(View v) {
-        FragmentUtils.replace(currentFragmentId,targetFragment,fragmentManager);
+        FragmentUtils.replaceWithName(currentFragmentId,targetFragment,
+                UserOrdersFragmentConstants.FRAGMENT_NAME,
+                fragmentManager);
     }
 }

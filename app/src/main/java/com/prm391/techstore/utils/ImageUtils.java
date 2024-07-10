@@ -39,6 +39,7 @@ public class ImageUtils {
         }
     }
     public static Bitmap resizeBitmap(Bitmap bm,int newWidth, int newHeight){
+        if (bm==null) return null;
         int width = bm.getWidth();
         int height = bm.getHeight();
         float scaleWidth = ((float) newWidth) / width;

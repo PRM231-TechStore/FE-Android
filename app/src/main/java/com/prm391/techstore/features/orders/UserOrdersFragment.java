@@ -83,6 +83,7 @@ public class UserOrdersFragment extends Fragment {
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setTitle(UserOrdersFragmentConstants.USER_ORDERS_TITLE);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_return_to_previous_activity);
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     private void InitializeClassVariables() {
@@ -109,7 +110,6 @@ public class UserOrdersFragment extends Fragment {
                 if (userOrdersResponse.getData() != null) {
                     userOrders = userOrdersResponse.getData().getItems();
                     InitializeOrdersRecyclerView();
-
                 }
             }
 
@@ -124,7 +124,7 @@ public class UserOrdersFragment extends Fragment {
     private void InitializeOrdersRecyclerView() {
         ordersRecyclerView = view.findViewById(R.id.ordersRecyclerView);
         ordersRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        userOrdersAdapter = new UserOrdersAdapter(getContext(), userOrders);
+        userOrdersAdapter = new UserOrdersAdapter(getContext(), userOrders,this);
         ordersRecyclerView.setAdapter(userOrdersAdapter);
     }
 }
