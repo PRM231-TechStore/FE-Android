@@ -29,7 +29,7 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyD8h8s59VjbyoduToyGKiyGdR_O130ZSL4" />
+            android:value="INSERT-SECRET-KEY-HERE" />
 
         <activity
             android:name=".features.store_location.StoreLocationActivity"
